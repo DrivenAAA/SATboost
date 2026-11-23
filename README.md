@@ -7,43 +7,57 @@
 <title>Prepify | SAT Preparation</title>
 <style>
 :root{
- --bg:#f5f7fc;--panel:#fff;--text:#17213a;--muted:#78849b;
- --line:#e6eaf2;--primary:#6256e8;--soft:#f0efff;
+ --bg:#f4f6fb;--panel:#fff;--text:#17213a;--muted:#78849b;
+ --line:#e4e9f2;--primary:#6256e8;--soft:#f0efff;
  --green:#159b72;--red:#df5968;
 }
-body.dark{--bg:#111522;--panel:#1b2232;--text:#edf0fa;--muted:#9ba6bb;--line:#30394c;--primary:#9288ff;--soft:#292644}
+body.dark{
+ --bg:#111522;--panel:#1b2232;--text:#edf0fa;
+ --muted:#9ba6bb;--line:#30394c;--primary:#9288ff;--soft:#292644;
+}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
 button,input,select{font:inherit}
 button{cursor:pointer}
+a{color:var(--primary)}
 .app{display:flex;min-height:100vh}
-.sidebar{width:250px;position:fixed;inset:0 auto 0 0;background:var(--panel);border-right:1px solid var(--line);padding:22px 15px;display:flex;flex-direction:column;z-index:10;overflow:auto}
-.logo{font-size:23px;font-weight:800;display:flex;align-items:center;gap:10px;padding:0 10px 28px}
-.logo-icon{background:var(--primary);color:white;border-radius:10px;width:35px;height:35px;display:grid;place-items:center}
-.nav-label{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--muted);padding:13px 12px 7px}
-.nav-btn{display:block;width:100%;text-align:left;padding:13px 12px;border:0;border-radius:9px;background:transparent;color:var(--muted);font-size:13px;font-weight:650;margin:2px 0}
+.sidebar{
+ width:260px;position:fixed;inset:0 auto 0 0;
+ background:var(--panel);border-right:1px solid var(--line);
+ padding:22px 15px;display:flex;flex-direction:column;
+ z-index:20;overflow-y:auto;
+}
+.logo{font-size:24px;font-weight:800;display:flex;align-items:center;gap:10px;padding:0 10px 28px}
+.logo-icon{background:var(--primary);color:white;border-radius:11px;width:37px;height:37px;display:grid;place-items:center}
+.nav-label{font-size:11px;font-weight:800;letter-spacing:1.4px;color:var(--muted);padding:14px 12px 7px}
+.nav-btn{display:block;width:100%;text-align:left;padding:13px 12px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;font-weight:650;margin:2px 0}
 .nav-btn:hover,.nav-btn.active{background:var(--soft);color:var(--primary)}
 .sidebar-bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:12px}
 .profile{padding:12px;font-size:12px;overflow-wrap:anywhere}
 .profile small{display:block;color:var(--muted);margin-top:5px}
-.main{margin-left:250px;width:calc(100% - 250px);padding:30px 35px 60px}
+.main{
+ margin-left:260px;width:calc(100% - 260px);
+ min-width:0;padding:28px 34px 60px;
+}
 .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
-h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;margin:0 0 9px}
-.muted{color:var(--muted);font-size:12px;line-height:1.6}
-.eyebrow{font-size:11px;color:var(--muted);margin-bottom:7px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:21px}
-.grid{display:grid;gap:15px}
-.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:17px}
+h1{font-size:29px;margin:0}h2{font-size:21px;margin:0 0 13px}h3{font-size:16px;margin:0 0 9px}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.eyebrow{font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:.4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px}
+.grid{display:grid;gap:16px}
+.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}
 .stat-label{font-size:12px;color:var(--muted)}
-.stat-value{font-size:27px;font-weight:800;margin:10px 0}
+.stat-value{font-size:28px;font-weight:800;margin:10px 0}
 .progress{height:7px;background:var(--line);border-radius:20px;overflow:hidden;margin:12px 0}
 .progress span{display:block;height:100%;background:var(--primary)}
 .primary,.secondary,.icon-btn{border-radius:9px;padding:11px 15px;font-weight:650}
 .primary{background:var(--primary);color:white;border:0}
+.primary:hover{filter:brightness(1.08)}
 .secondary,.icon-btn{background:var(--panel);border:1px solid var(--line);color:var(--text)}
-.page{display:none}.page.active{display:block}
-.welcome{background:linear-gradient(120deg,#5147ce,#887df8);color:white;border:0;padding:28px;margin-bottom:18px}
-.welcome p{font-size:13px;line-height:1.7;max-width:600px}
+.page{display:none;width:100%;min-width:0}
+.page.active{display:block}
+.welcome{background:linear-gradient(120deg,#5147ce,#887df8);color:white;border:0;padding:30px;margin-bottom:18px}
+.welcome p{font-size:14px;line-height:1.7;max-width:650px}
 .welcome .primary{background:white;color:#5147ce}
 .dashboard-grid{grid-template-columns:1.3fr 1fr}
 .topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -51,7 +65,7 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
 .topic-card p{font-size:12px;color:var(--muted);margin:5px 0}
 .tag{background:var(--soft);color:var(--primary);font-size:10px;font-weight:750;padding:6px 9px;border-radius:20px}
 .filters{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
-.filters input,.filters select,.modal input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:12px;border-radius:9px}
+.filters input,.filters select,.modal input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:13px;border-radius:9px}
 .filters input{flex:1;min-width:190px}
 .list{display:grid;gap:10px}
 .list-item{border:1px solid var(--line);padding:14px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -60,27 +74,59 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
 .modal-bg{display:none;position:fixed;inset:0;background:#080d1acc;z-index:50;place-items:center;padding:20px}
 .modal-bg.show{display:grid}
 .modal{width:min(480px,100%);background:var(--panel);padding:27px;border-radius:16px}
-.modal input{display:block;width:100%;margin:8px 0 15px}
-.modal label{font-size:12px;color:var(--muted)}
 .login-screen{min-height:100vh;display:grid;place-items:center;padding:20px}
 .login-box{width:min(420px,100%);padding:35px;background:var(--panel);border:1px solid var(--line);border-radius:17px}
 .login-box input{width:100%;padding:13px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--text);margin:9px 0 15px}
 .login-box .primary{width:100%}
 
-/* Question Bank full-width practice */
-.bank-intro{padding:28px;margin-bottom:18px}
-.bank-intro h2{font-size:24px}
-.bank-topics{grid-template-columns:repeat(2,minmax(0,1fr))}
-.bank-topic{padding:22px}
-.bank-topic .topic-description{color:var(--muted);font-size:12px;line-height:1.6;margin:8px 0 17px}
+/* QUESTION BANK - FULL WIDTH */
+#page-bank{width:100%;max-width:none;margin:0;padding:0}
+.bank-intro{padding:27px;margin-bottom:18px}
+.bank-intro h2{font-size:25px}
+.bank-toolbar{
+ display:grid;grid-template-columns:minmax(200px,1.4fr) minmax(180px,1fr) minmax(150px,.7fr);
+ gap:12px;margin:18px 0;
+}
+.bank-toolbar input,.bank-toolbar select{
+ width:100%;min-width:0;padding:14px;
+ border:1px solid var(--line);border-radius:10px;
+ background:var(--panel);color:var(--text);
+}
+.bank-topics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.bank-topic{padding:23px}
+.bank-topic .topic-description{color:var(--muted);font-size:13px;line-height:1.6;margin:8px 0 18px}
 .bank-topic-footer{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.bank-list{display:grid;gap:12px}
-.bank-question{padding:20px}
-.bank-question-title{font-weight:700;margin-bottom:9px}
-.bank-question-sub{font-size:12px;color:var(--muted)}
-.bank-question-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.bank-workspace{
+ display:grid;grid-template-columns:minmax(0,2.1fr) minmax(270px,.9fr);
+ gap:20px;width:100%;align-items:start;
+}
+.bank-question-card{padding:27px;min-width:0}
+.bank-question-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.bank-question-text{font-size:21px;line-height:1.8;white-space:pre-line;margin:22px 0}
+.bank-options{display:grid;gap:11px;margin-top:22px}
+.bank-option{
+ display:flex;align-items:flex-start;gap:13px;
+ padding:15px;border:1px solid var(--line);border-radius:10px;
+ cursor:pointer;background:var(--panel);line-height:1.6;
+}
+.bank-option:hover{border-color:var(--primary)}
+.bank-option.selected{border:2px solid var(--primary);background:var(--soft);padding:14px}
+.bank-option.correct{border-color:var(--green);background:#159b7215}
+.bank-option.wrong{border-color:var(--red);background:#df596815}
+.option-letter{width:29px;height:29px;border-radius:8px;background:var(--bg);display:grid;place-items:center;font-weight:800;flex-shrink:0}
+.bank-side{display:grid;gap:15px}
+.bank-side .card{padding:24px}
+.bank-side h2{font-size:20px}
+.bank-side-number{font-size:31px;font-weight:850;margin:18px 0}
+.bank-navigation{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.bank-navigation button{width:42px;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text)}
+.bank-navigation button.current{border:2px solid var(--primary);color:var(--primary)}
+.bank-navigation button.answered{background:#159b7215;border-color:#159b72}
+.bank-feedback{margin-top:17px;padding:16px;border-radius:10px;background:var(--soft);line-height:1.7}
+.bank-controls{display:flex;justify-content:space-between;gap:10px;margin-top:25px;flex-wrap:wrap}
+.bank-results{margin-top:20px}
 
-/* Full screen exam */
+/* FULL SCREEN EXAM */
 .exam{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);color:var(--text);overflow:auto}
 .exam.active{display:flex;flex-direction:column}
 .exam-header{height:68px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 4%;flex-shrink:0;gap:12px}
@@ -88,13 +134,13 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
 .exam-header-right{display:flex;align-items:center;gap:15px}
 .clock{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;min-width:75px;text-align:center}
 .clock.warning{color:var(--red)}
-.exam-body{width:100%;max-width:1200px;margin:0 auto;padding:35px 5% 125px;flex:1}
+.exam-body{width:100%;max-width:1500px;margin:0 auto;padding:35px 5% 125px;flex:1}
 .exam-progress{height:5px;background:var(--line);border-radius:10px;margin:17px 0 28px}
 .exam-progress span{display:block;height:100%;background:var(--primary)}
 .exam-headline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .exam-question-label{font-size:13px;font-weight:700;color:var(--muted)}
-.exam-question-text{font-size:21px;line-height:1.75;white-space:pre-line;margin:30px 0}
-.exam-choices{display:grid;gap:13px;max-width:1000px}
+.exam-question-text{font-size:22px;line-height:1.8;white-space:pre-line;margin:30px 0}
+.exam-choices{display:grid;gap:13px;max-width:1100px}
 .choice{display:flex;align-items:flex-start;gap:13px;padding:17px;border:1px solid var(--line);border-radius:11px;background:var(--panel);cursor:pointer;font-size:16px;line-height:1.6}
 .choice:hover{border-color:var(--primary)}
 .choice.selected{background:var(--soft);border:2px solid var(--primary);padding:16px}
@@ -108,7 +154,7 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
 .navigator-grid button.current{border:2px solid var(--primary);color:var(--primary)}
 .navigator-grid button.answered{background:#159b7218;border-color:#159b7277}
 .navigator-grid button.flagged{outline:2px solid var(--red)}
-.exam-setup{max-width:700px;margin:35px auto;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:35px}
+.exam-setup{max-width:760px;margin:35px auto;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:35px}
 .exam-setup h1{font-size:29px;margin-bottom:12px}
 .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
 .mode-option{border:2px solid var(--line);border-radius:12px;padding:18px;cursor:pointer}
@@ -120,11 +166,23 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
 .exam-result .score{font-size:58px;font-weight:850;margin:20px 0}
 .result-stats{display:flex;justify-content:center;gap:35px;flex-wrap:wrap;margin:25px}
 .result-stats b{display:block;font-size:22px;margin-bottom:5px}
-@media(max-width:900px){.stats{grid-template-columns:repeat(2,1fr)}.dashboard-grid{grid-template-columns:1fr}}
-@media(max-width:650px){
- .sidebar{transform:translateX(-100%);transition:.2s}.sidebar.open{transform:translateX(0)}
- .main{margin:0;width:100%;padding:18px 13px}
+@media(max-width:1000px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .bank-workspace{grid-template-columns:minmax(0,1.6fr) minmax(240px,.8fr)}
+ .bank-toolbar{grid-template-columns:1fr 1fr}
+ .bank-toolbar input{grid-column:1/-1}
+}
+@media(max-width:700px){
+ .sidebar{transform:translateX(-100%);transition:.2s}
+ .sidebar.open{transform:translateX(0)}
+ .main{margin:0;width:100%;padding:18px 13px 45px}
  .bank-topics,.topic-grid{grid-template-columns:1fr}
+ .bank-workspace{grid-template-columns:1fr}
+ .bank-side{grid-template-columns:1fr 1fr}
+ .bank-question-card{padding:18px}
+ .bank-question-text{font-size:18px}
+ .bank-toolbar{grid-template-columns:1fr}
+ .bank-toolbar input{grid-column:auto}
  .exam-header{padding:0 12px;height:60px}
  .exam-body{padding:22px 15px 115px}
  .exam-question-text{font-size:18px;margin:22px 0}
@@ -210,17 +268,57 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
     <h2>Question Bank</h2>
     <p class="muted">Choose a skill first. Questions will not appear until you start a practice session.</p>
    </div>
-   <div class="filters">
-    <input id="bankSearch" placeholder="Search skills...">
-    <select id="bankStatus"><option value="All">All questions</option><option value="Unanswered">Not answered</option><option value="Correct">Correct</option><option value="Wrong">Incorrect</option><option value="Saved">Saved</option></select>
+   <div class="bank-toolbar">
+    <input id="bankSearch" placeholder="Search questions or skills...">
+    <select id="bankStatus">
+     <option value="All">All questions</option>
+     <option value="Unanswered">Not answered</option>
+     <option value="Correct">Correct</option>
+     <option value="Wrong">Incorrect</option>
+     <option value="Saved">Saved</option>
+    </select>
    </div>
-   <div class="grid bank-topics" id="bankTopics"></div>
-   <div id="bankResults" style="display:none;margin-top:22px">
-    <div class="page-heading" style="margin-bottom:15px">
+   <div class="bank-topics" id="bankTopics"></div>
+
+   <div id="bankResults" style="display:none">
+    <div class="page-heading" style="margin:20px 0">
      <div><div class="eyebrow">SELECTED SKILL</div><h2 id="selectedTopicTitle"></h2><p class="muted" id="selectedTopicCount"></p></div>
      <button class="secondary" onclick="backToTopics()">← All skills</button>
     </div>
-    <div class="bank-list" id="bankQuestionList"></div>
+    <div class="bank-workspace">
+     <div class="card bank-question-card">
+      <div class="bank-question-head">
+       <div><span class="tag" id="bankTopicTag"></span> <span class="muted" id="bankDifficulty"></span></div>
+       <button class="secondary" id="bankSaveBtn">☆ Save</button>
+      </div>
+      <div class="eyebrow" id="bankQuestionNumber">QUESTION 1 OF 1</div>
+      <div class="bank-question-text" id="bankQuestionText"></div>
+      <div class="bank-options" id="bankOptions"></div>
+      <div id="bankFeedback"></div>
+      <div class="bank-controls">
+       <button class="secondary" id="bankPrev">← Previous</button>
+       <button class="primary" id="bankCheck">Check Answer</button>
+       <button class="primary" id="bankNext">Next →</button>
+      </div>
+     </div>
+     <div class="bank-side">
+      <div class="card">
+       <h2>Question progress</h2>
+       <div class="bank-side-number" id="bankProgressNumber">0/0</div>
+       <div class="progress"><span id="bankProgressBar" style="width:0%"></span></div>
+       <p class="muted">Questions you have answered.</p>
+      </div>
+      <div class="card">
+       <h2>Question navigator</h2>
+       <p class="muted">Select a question number.</p>
+       <div class="bank-navigation" id="bankNavigator"></div>
+      </div>
+      <div class="card">
+       <h2>Study tip</h2>
+       <p class="muted">Read the whole sentence carefully before choosing your answer. Review the explanation after checking.</p>
+      </div>
+     </div>
+    </div>
    </div>
   </section>
 
@@ -260,7 +358,6 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
  </main>
 </div>
 
-<!-- Exam screen -->
 <div class="exam" id="exam">
  <header class="exam-header">
   <div class="exam-logo"><span class="logo-icon">P</span> Prepify <span class="muted">| Exam</span></div>
@@ -271,7 +368,6 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
    <button class="icon-btn" onclick="leaveExam()">✕</button>
   </div>
  </header>
-
  <div class="exam-body">
   <div id="examSetup">
    <div class="exam-setup">
@@ -280,22 +376,10 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
     <p class="muted">Choose your testing mode. Questions will appear only after you press Start Exam.</p>
     <h3 style="margin-top:25px">Select mode</h3>
     <div class="mode-grid">
-     <div class="mode-option active" id="timedOption" onclick="setMode('timed')">
-      <b>◷ Timed</b><p>Practice under time pressure with a countdown timer.</p>
-     </div>
-     <div class="mode-option" id="untimedOption" onclick="setMode('untimed')">
-      <b>∞ Untimed</b><p>Take as much time as you need. No countdown.</p>
-     </div>
+     <div class="mode-option active" id="timedOption" onclick="setMode('timed')"><b>◷ Timed</b><p>Practice under time pressure with a countdown timer.</p></div>
+     <div class="mode-option" id="untimedOption" onclick="setMode('untimed')"><b>∞ Untimed</b><p>Take as much time as you need. No countdown.</p></div>
     </div>
-    <div id="durationArea">
-     <label class="muted">Time limit</label>
-     <select id="duration">
-      <option value="10">10 minutes</option>
-      <option value="20">20 minutes</option>
-      <option value="32" selected>32 minutes</option>
-      <option value="35">35 minutes</option>
-     </select>
-    </div>
+    <div id="durationArea"><label class="muted">Time limit</label><select id="duration"><option value="10">10 minutes</option><option value="20">20 minutes</option><option value="32" selected>32 minutes</option><option value="35">35 minutes</option></select></div>
     <div class="list-item" style="margin:15px 0">
      <div><b id="examScopeTitle">All Reading & Writing skills</b><p class="muted" id="examScopeDesc">8 sample questions</p></div>
      <span class="tag" id="examCount">8 QUESTIONS</span>
@@ -303,7 +387,6 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
     <button class="primary" style="width:100%;padding:15px" onclick="startExam()">Start Exam →</button>
    </div>
   </div>
-
   <div id="examWork" style="display:none">
    <div class="exam-headline">
     <span class="exam-question-label" id="examQuestionNumber">QUESTION 1 OF 8</span>
@@ -313,20 +396,12 @@ h1{font-size:28px;margin:0}h2{font-size:19px;margin:0 0 13px}h3{font-size:15px;m
    <div class="muted" id="examTopic"></div>
    <div class="exam-question-text" id="examQuestionText"></div>
    <div class="exam-choices" id="examChoices"></div>
-   <div class="exam-navigator" id="examNavigator">
-    <b>Question navigator</b><p class="muted">Choose a question number to move to it.</p>
-    <div class="navigator-grid" id="navigatorGrid"></div>
-   </div>
+   <div class="exam-navigator" id="examNavigator"><b>Question navigator</b><p class="muted">Choose a question number to move to it.</p><div class="navigator-grid" id="navigatorGrid"></div></div>
   </div>
-
   <div id="examResults" style="display:none"></div>
  </div>
-
  <footer class="exam-footer" id="examFooter" style="display:none">
-  <div class="footer-group">
-   <button class="secondary" onclick="toggleNavigator()">☷ Questions</button>
-   <span class="muted" id="answeredCounter">0 of 8 answered</span>
-  </div>
+  <div class="footer-group"><button class="secondary" onclick="toggleNavigator()">☷ Questions</button><span class="muted" id="answeredCounter">0 of 8 answered</span></div>
   <div class="footer-group">
    <button class="secondary" id="prevBtn" onclick="examPrevious()">← Back</button>
    <button class="primary" id="nextBtn" onclick="examNext()">Next →</button>
@@ -352,7 +427,8 @@ const $=id=>document.getElementById(id);
 let user=localStorage.getItem("prepify_email")||"";
 let answers=JSON.parse(localStorage.getItem("prepify_answers")||"{}");
 let saved=JSON.parse(localStorage.getItem("prepify_saved")||"[]");
-let selectedTopic="All",mode="timed",examQuestions=[],examAnswers={},flags=[],examIndex=0,seconds=0,timer=null,examRunning=false;
+let selectedTopic="All",bankQuestions=[],bankIndex=0,bankSelection=null,bankChecked=false;
+let mode="timed",examQuestions=[],examAnswers={},flags=[],examIndex=0,seconds=0,timer=null,examRunning=false;
 
 function save(){
  localStorage.setItem("prepify_answers",JSON.stringify(answers));
@@ -401,27 +477,11 @@ function renderDashboard(){
  const s=stats();
  $("statAnswered").textContent=s.total;$("statAccuracy").textContent=s.total?s.accuracy+"%":"—";
  $("statSaved").textContent=saved.length;$("statMistakes").textContent=s.wrong;
- $("overallProgress").style.width=s.total/questions.length*100+"%";
+ $("overallProgress").style.width=Math.min(100,s.total/questions.length*100)+"%";
  $("overallText").textContent=s.total+" of "+questions.length+" questions answered";
- $("dashboardTopics").innerHTML=topics.map((t,i)=>`
+ $("dashboardTopics").innerHTML=topics.map(t=>`
  <div class="card topic-card"><div><b>${t}</b><p>${questions.filter(q=>q.topic===t).length} sample questions</p></div>
  <button class="secondary" onclick="showPage('bank');selectTopic('${t}')">Open</button></div>`).join("");
-}
-function backToTopics(){
- selectedTopic="All";$("bankTopics").style.display="grid";$("bankResults").style.display="none";
- $("bankSearch").value="";$("bankStatus").value="All";renderTopicCards();
-}
-function renderTopicCards(){
- const search=$("bankSearch").value.toLowerCase();
- const status=$("bankStatus").value;
- const visible=topics.filter(t=>t.toLowerCase().includes(search));
- $("bankTopics").innerHTML=visible.map(t=>{
-  const qs=questions.filter(q=>q.topic===t);
-  let filtered=filterStatus(qs,status);
-  return `<div class="card bank-topic"><div class="eyebrow">READING & WRITING</div><h2>${t}</h2>
-   <div class="topic-description">Practice this skill with focused questions. Your progress is saved as you work.</div>
-   <div class="bank-topic-footer"><span class="muted">${filtered.length} questions available</span><button class="primary" onclick="selectTopic('${t}')">Start Practice →</button></div></div>`;
- }).join("")||'<div class="empty">No skills found.</div>';
 }
 function filterStatus(qs,status){
  if(status==="Unanswered")return qs.filter(q=>!answers[q.id]);
@@ -430,33 +490,99 @@ function filterStatus(qs,status){
  if(status==="Saved")return qs.filter(q=>saved.includes(q.id));
  return qs;
 }
+function backToTopics(){
+ selectedTopic="All";$("bankTopics").style.display="grid";$("bankResults").style.display="none";
+ $("bankSearch").value="";$("bankStatus").value="All";renderTopicCards();
+}
+function renderTopicCards(){
+ const search=$("bankSearch").value.toLowerCase(),status=$("bankStatus").value;
+ const visible=topics.filter(t=>t.toLowerCase().includes(search));
+ $("bankTopics").innerHTML=visible.map(t=>{
+  const qs=filterStatus(questions.filter(q=>q.topic===t),status);
+  return `<div class="card bank-topic">
+   <div class="eyebrow">READING & WRITING</div><h2>${t}</h2>
+   <div class="topic-description">Practice this skill with focused questions. Your progress is saved as you work.</div>
+   <div class="bank-topic-footer"><span class="muted">${qs.length} questions available</span><button class="primary" onclick="selectTopic('${t}')">Start Practice →</button></div>
+  </div>`;
+ }).join("")||'<div class="empty">No skills found.</div>';
+}
 function selectTopic(topic){
  selectedTopic=topic;
+ bankQuestions=filterStatus(questions.filter(q=>q.topic===topic),$("bankStatus").value);
+ bankIndex=0;bankSelection=null;bankChecked=false;
  $("bankTopics").style.display="none";$("bankResults").style.display="block";
  $("selectedTopicTitle").textContent=topic;
- const qs=filterStatus(questions.filter(q=>q.topic===topic),$("bankStatus").value);
- $("selectedTopicCount").textContent=qs.length+" questions in this skill";
- $("bankQuestionList").innerHTML=qs.map((q,i)=>`
- <div class="card bank-question">
-  <div class="bank-question-title">Question ${i+1}</div>
-  <div class="bank-question-sub">${q.difficulty} · ${answers[q.id]?(answers[q.id].correct?"Correct":"Incorrect"):"Not answered"}</div>
-  <div class="bank-question-actions">
-   <button class="primary" onclick="launchExam('${topic}',${q.id})">Start Practice →</button>
-   <button class="secondary" onclick="toggleSave(${q.id})">${saved.includes(q.id)?"★ Saved":"☆ Save"}</button>
-  </div>
- </div>`).join("")||'<div class="empty">No questions match this filter.</div>';
+ $("selectedTopicCount").textContent=bankQuestions.length+" questions in this skill";
+ renderBankQuestion();
 }
-$("bankSearch").oninput=()=>{if(selectedTopic==="All")renderTopicCards()};
+function renderBankQuestion(){
+ if(!bankQuestions.length){
+  $("bankQuestionText").textContent="No questions match this filter.";
+  $("bankOptions").innerHTML="";$("bankFeedback").innerHTML="";return;
+ }
+ const q=bankQuestions[bankIndex];
+ $("bankTopicTag").textContent=q.topic;$("bankDifficulty").textContent=q.difficulty;
+ $("bankQuestionNumber").textContent="QUESTION "+(bankIndex+1)+" OF "+bankQuestions.length;
+ $("bankQuestionText").textContent=q.text;
+ $("bankSaveBtn").textContent=saved.includes(q.id)?"★ Saved":"☆ Save";
+ $("bankSaveBtn").onclick=()=>toggleSave(q.id);
+ const previous=answers[q.id];
+ bankSelection=previous?previous.choice:null;
+ bankChecked=!!previous;
+ $("bankOptions").innerHTML=q.options.map((o,i)=>{
+  let cls="";
+  if(bankChecked&&i===q.answer)cls="correct";
+  else if(bankChecked&&i===bankSelection&&i!==q.answer)cls="wrong";
+  else if(!bankChecked&&i===bankSelection)cls="selected";
+  return `<div class="bank-option ${cls}" onclick="selectBankAnswer(${i})">
+   <span class="option-letter">${"ABCD"[i]}</span><span>${o}</span></div>`;
+ }).join("");
+ $("bankFeedback").innerHTML=bankChecked?`
+  <div class="bank-feedback">
+   <b>${previous?.correct?"Correct answer!":"Review this answer"}</b>
+   <p>${q.explanation}</p>
+  </div>`:"";
+ $("bankPrev").disabled=bankIndex===0;
+ $("bankNext").textContent=bankIndex===bankQuestions.length-1?"Finish skill":"Next →";
+ $("bankProgressNumber").textContent=bankQuestions.filter(x=>answers[x.id]).length+"/"+bankQuestions.length;
+ $("bankProgressBar").style.width=(bankQuestions.filter(x=>answers[x.id]).length/Math.max(1,bankQuestions.length)*100)+"%";
+ $("bankNavigator").innerHTML=bankQuestions.map((x,i)=>`
+  <button class="${i===bankIndex?"current ":""}${answers[x.id]?"answered":""}" onclick="goBankQuestion(${i})">${i+1}</button>`).join("");
+}
+function selectBankAnswer(i){
+ if(bankChecked)return;
+ bankSelection=i;
+ $("bankOptions").querySelectorAll(".bank-option").forEach((el,n)=>el.classList.toggle("selected",n===i));
+}
+function checkBankAnswer(){
+ if(bankSelection===null){alert("Please select an answer first.");return}
+ const q=bankQuestions[bankIndex];
+ answers[q.id]={choice:bankSelection,correct:bankSelection===q.answer};
+ bankChecked=true;save();renderBankQuestion();renderDashboard();
+}
+function goBankQuestion(i){bankIndex=i;renderBankQuestion()}
+function bankPrevious(){if(bankIndex>0){bankIndex--;renderBankQuestion()}}
+function bankNext(){
+ if(bankIndex<bankQuestions.length-1){bankIndex++;renderBankQuestion()}
+ else{
+  alert("You have reached the end of this skill.");
+  backToTopics();renderDashboard();
+ }
+}
+$("bankCheck").onclick=checkBankAnswer;
+$("bankPrev").onclick=bankPrevious;
+$("bankNext").onclick=bankNext;
+$("bankSearch").oninput=()=>renderTopicCards();
 $("bankStatus").onchange=()=>{if(selectedTopic==="All")renderTopicCards();else selectTopic(selectedTopic)};
 function toggleSave(id){
  saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];save();
- if(selectedTopic!=="All")selectTopic(selectedTopic);
+ if(selectedTopic!=="All")renderBankQuestion();
  renderDashboard();
 }
 
-/* Exam setup and modes */
-function launchExam(scope,oneId=null){
- examQuestions=oneId?questions.filter(q=>q.id===oneId):scope==="all"?[...questions]:questions.filter(q=>q.topic===scope);
+/* Exam */
+function launchExam(scope){
+ examQuestions=scope==="all"?[...questions]:questions.filter(q=>q.topic===scope);
  if(!examQuestions.length)return;
  $("exam").classList.add("active");
  $("examSetup").style.display="block";$("examWork").style.display="none";
@@ -464,8 +590,7 @@ function launchExam(scope,oneId=null){
  $("examScopeTitle").textContent=scope==="all"?"All Reading & Writing skills":scope;
  $("examScopeDesc").textContent=examQuestions.length+" question(s) in this practice session";
  $("examCount").textContent=examQuestions.length+" QUESTIONS";
- mode="timed";setMode("timed");
- $("examNavigator").classList.remove("show");
+ mode="timed";setMode("timed");$("examNavigator").classList.remove("show");
  examRunning=false;
 }
 function setMode(value){
@@ -482,10 +607,7 @@ function startExam(){
  $("examModeLabel").textContent=mode==="timed"?"TIMED":"UNTIMED";
  if(mode==="timed"){
   updateClock();clearInterval(timer);
-  timer=setInterval(()=>{
-   seconds--;updateClock();
-   if(seconds<=0){clearInterval(timer);finishExam(true)}
-  },1000);
+  timer=setInterval(()=>{seconds--;updateClock();if(seconds<=0){clearInterval(timer);finishExam(true)}},1000);
  }else{$("clock").textContent="∞";$("clock").classList.remove("warning")}
  renderExamQuestion();
  if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});
@@ -569,12 +691,11 @@ function renderReviewQuestion(){
  <span class="choice-letter">${"ABCD"[i]}</span><span>${o}</span></div>`).join("")+
  `<div class="card" style="margin-top:15px"><b>Explanation</b><p class="muted">${q.explanation}</p></div>`;
  $("flagBtn").style.display="none";
- $("answeredCounter").textContent="Correct answer: "+ "ABCD"[q.answer];
+ $("answeredCounter").textContent="Correct answer: "+"ABCD"[q.answer];
  $("prevBtn").disabled=examIndex===0;
  $("nextBtn").style.display=examIndex===examQuestions.length-1?"none":"inline-block";
  $("submitBtn").style.display=examIndex===examQuestions.length-1?"inline-block":"none";
- $("submitBtn").textContent="Finish review";
- $("submitBtn").onclick=closeExam;
+ $("submitBtn").textContent="Finish review";$("submitBtn").onclick=closeExam;
  $("prevBtn").onclick=()=>{examIndex--;renderReviewQuestion()};
  $("nextBtn").onclick=()=>{examIndex++;renderReviewQuestion()};
 }
@@ -583,8 +704,7 @@ function leaveExam(){
  closeExam();
 }
 function closeExam(){
- clearInterval(timer);examRunning=false;
- $("exam").classList.remove("active");
+ clearInterval(timer);examRunning=false;$("exam").classList.remove("active");
  $("flagBtn").style.display="inline-block";
  $("submitBtn").textContent="Submit Test";$("submitBtn").onclick=confirmSubmit;
  $("prevBtn").onclick=examPrevious;$("nextBtn").onclick=examNext;
@@ -594,13 +714,11 @@ function toggleFullscreen(){
  if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});
  else document.exitFullscreen?.();
 }
-
-/* Data and mistakes */
 function renderMistakes(){
  const wrong=questions.filter(q=>answers[q.id]&&!answers[q.id].correct);
  $("mistakesList").innerHTML=wrong.length?wrong.map(q=>`
  <div class="list-item"><div><b>${q.topic}</b><p class="muted">${q.text.slice(0,90)}...</p></div>
- <button class="secondary" onclick="launchExam('${q.topic}',${q.id})">Review</button></div>`).join(""):'<div class="empty">No mistakes to review yet.</div>';
+ <button class="secondary" onclick="launchExam('${q.topic}')">Review</button></div>`).join(""):'<div class="empty">No mistakes to review yet.</div>';
 }
 function renderData(){
  const s=stats();
