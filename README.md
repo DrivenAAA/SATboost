@@ -4,544 +4,349 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prepify — Your SAT Journey</title>
+<title>Prepify SAT</title>
 <style>
 :root {
-    --bg:#080b14;
-    --surface:#111625;
-    --surface2:#192136;
-    --text:#f4f5ff;
-    --muted:#929bb4;
-    --primary:#8175ff;
-    --border:#273047;
-    --soft:#252344;
+  --bg:#f5f7fc; --surface:#fff; --text:#172033; --muted:#68738a;
+  --primary:#6558e8; --border:#e5e8f0; --soft:#eeecff;
 }
-body.light {
-    --bg:#f5f6fc;
-    --surface:#ffffff;
-    --surface2:#edf0f8;
-    --text:#171a2c;
-    --muted:#707991;
-    --primary:#6557e8;
-    --border:#e1e4ef;
-    --soft:#eeebff;
+body.dark {
+  --bg:#101322; --surface:#1a2032; --text:#f3f4fb; --muted:#a6aec2;
+  --primary:#9287ff; --border:#30384d; --soft:#292747;
 }
-* {box-sizing:border-box;margin:0;padding:0}
-body {
-    background:var(--bg);
-    color:var(--text);
-    font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    transition:.3s;
-    min-height:100vh;
-}
-button,input,select {font:inherit}
-button {cursor:pointer}
-.hidden {display:none!important}
-.logo {
-    font-size:25px;
-    font-weight:900;
-    letter-spacing:-1.5px;
-    color:var(--text);
-}
-.logo span {color:var(--primary)}
-header {
-    padding:22px 7%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:1px solid var(--border);
-}
-.header-actions {display:flex;gap:10px;align-items:center}
-.icon-btn {
-    background:var(--surface2);
-    border:1px solid var(--border);
-    color:var(--text);
-    border-radius:10px;
-    padding:10px 13px;
-}
-.container {max-width:1150px;margin:auto;padding:35px 22px}
-#onboarding {
-    max-width:570px;
-    margin:65px auto;
-    padding:40px;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:24px;
-    box-shadow:0 25px 90px #00000020;
-}
-.progress {
-    height:5px;
-    background:var(--surface2);
-    border-radius:20px;
-    margin-bottom:25px;
-    overflow:hidden;
-}
-#progressFill {
-    height:100%;
-    width:25%;
-    background:linear-gradient(90deg,#665bff,#b28aff);
-    transition:.4s;
-}
-.counter {
-    color:var(--primary);
-    font-size:10px;
-    letter-spacing:2px;
-    font-weight:900;
-    margin-bottom:24px;
-}
-.step {display:none;animation:appear .4s ease}
-.step.active {display:block}
-@keyframes appear {
-    from {opacity:0;transform:translateY(12px)}
-    to {opacity:1;transform:translateY(0)}
-}
-.step-icon {
-    width:55px;height:55px;
-    display:grid;place-items:center;
-    border-radius:16px;
-    background:var(--soft);
-    font-size:26px;
-    margin-bottom:24px;
-}
-h1 {
-    font-size:34px;
-    letter-spacing:-1.7px;
-    line-height:1.2;
-    margin-bottom:15px;
-}
-h1 span {color:var(--primary)}
-.description {
-    color:var(--muted);
-    font-size:13px;
-    line-height:1.8;
-    margin-bottom:30px;
-}
-.field-label {
-    display:block;
-    font-size:12px;
-    font-weight:700;
-    margin-bottom:10px;
-}
-.field {
-    width:100%;
-    padding:16px;
-    border:1px solid var(--border);
-    border-radius:11px;
-    background:var(--surface2);
-    color:var(--text);
-    outline:none;
-    margin-bottom:18px;
-}
-.field:focus {border-color:var(--primary)}
-.primary-btn {
-    width:100%;
-    border:0;
-    border-radius:11px;
-    padding:16px;
-    color:white;
-    background:linear-gradient(110deg,#6558ee,#9280ff);
-    font-size:13px;
-    font-weight:800;
-    transition:.2s;
-}
-.primary-btn:hover {
-    transform:translateY(-2px);
-    box-shadow:0 10px 30px #7565ff45;
-}
-.back-btn {
-    display:block;
-    margin:18px auto 0;
-    background:none;
-    border:0;
-    color:var(--muted);
-    font-size:12px;
-}
-.target-card,.study-card {
-    padding:20px;
-    background:var(--surface2);
-    border:1px solid var(--border);
-    border-radius:13px;
-    margin-bottom:14px;
-}
-.target-heading {
-    display:flex;
-    justify-content:space-between;
-    font-size:13px;
-    font-weight:700;
-    margin-bottom:18px;
-}
-.target-heading strong {
-    font-size:20px;color:var(--primary);
-}
-input[type=range] {width:100%;accent-color:var(--primary)}
-.range-labels {
-    display:flex;
-    justify-content:space-between;
-    color:var(--muted);
-    font-size:10px;
-    margin-top:8px;
-}
-.total-target {
-    display:flex;
-    justify-content:space-between;
-    padding:18px;
-    background:var(--soft);
-    border-radius:12px;
-    margin:20px 0;
-    font-size:12px;
-}
-.total-target strong {color:var(--primary);font-size:18px}
-.study-card {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-}
-.study-card h3 {font-size:13px;margin-bottom:5px}
-.study-card p {font-size:10px;color:var(--muted)}
-.study-card select {
-    padding:10px;
-    border-radius:8px;
-    background:var(--surface);
-    color:var(--text);
-    border:1px solid var(--border);
-}
-.experience-option {
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:17px;
-    border:1px solid var(--border);
-    background:var(--surface2);
-    border-radius:12px;
-    margin-bottom:12px;
-    cursor:pointer;
-}
-.experience-option:has(input:checked) {
-    border-color:var(--primary);
-    background:var(--soft);
-}
-.experience-option input {accent-color:var(--primary)}
-.experience-option div {flex:1}
-.experience-option strong {font-size:12px;display:block;margin-bottom:6px}
-.experience-option small {font-size:10px;color:var(--muted);line-height:1.5}
-.note {font-size:11px;color:var(--muted);line-height:1.7;margin:20px 0}
-#dashboard {max-width:1150px;margin:auto;padding:40px 22px}
-.welcome {
-    padding:35px;
-    border-radius:20px;
-    background:linear-gradient(115deg,#29225e,#5749a8,#7565db);
-    color:white;
-    margin-bottom:28px;
-}
-.welcome small {opacity:.75;font-size:11px;letter-spacing:2px}
-.welcome h1 {margin:15px 0;font-size:36px}
-.welcome p {font-size:13px;opacity:.8}
-.section-title {font-size:19px;margin:30px 0 17px}
-.stats {
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:15px;
-}
-.stat {
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:15px;
-    padding:22px;
-}
-.stat small {color:var(--muted);font-size:11px}
-.stat h2 {font-size:29px;margin:12px 0;color:var(--primary)}
-.stat p {font-size:10px;color:var(--muted)}
-.lesson-grid {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-}
-.lesson {
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:25px;
-    transition:.2s;
-}
-.lesson:hover {transform:translateY(-4px);border-color:var(--primary)}
-.lesson-icon {font-size:27px;margin-bottom:17px}
-.lesson h3 {font-size:16px;margin-bottom:9px}
-.lesson p {font-size:12px;color:var(--muted);line-height:1.7}
-.lesson button {
-    background:var(--soft);
-    color:var(--primary);
-    border:0;
-    padding:11px 17px;
-    border-radius:8px;
-    margin-top:20px;
-    font-weight:700;
-    font-size:11px;
-}
-.dashboard-footer {
-    text-align:center;
-    color:var(--muted);
-    font-size:10px;
-    padding:45px 0;
-}
-#toast {
-    position:fixed;
-    bottom:25px;
-    left:50%;
-    transform:translateX(-50%);
-    background:var(--surface2);
-    border:1px solid var(--border);
-    padding:13px 20px;
-    border-radius:10px;
-    font-size:12px;
-    display:none;
-    z-index:20;
-}
-@media(max-width:650px) {
-    #onboarding {margin:35px 12px;padding:25px 20px}
-    h1 {font-size:27px}
-    .stats {grid-template-columns:1fr 1fr}
-    .lesson-grid {grid-template-columns:1fr}
-    .welcome h1 {font-size:28px}
-    header {padding:17px 5%}
-}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;transition:.2s}
+button,input{font:inherit}
+button{cursor:pointer;border:0}
+.hidden{display:none!important}
+.container{max-width:1100px;margin:auto;padding:25px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:35px}
+.logo{font-size:25px;font-weight:850;color:var(--primary);letter-spacing:-1px}
+.actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.btn{padding:11px 16px;border-radius:10px;background:var(--primary);color:white;font-weight:700}
+.btn.secondary{background:var(--soft);color:var(--primary)}
+.btn.outline{background:transparent;border:1px solid var(--border);color:var(--text)}
+.btn.danger{background:#ffe9e9;color:#c83232}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;margin-bottom:20px}
+.muted{color:var(--muted)}
+h1{font-size:clamp(30px,5vw,46px);letter-spacing:-1.5px;margin:8px 0 14px}
+h2{margin-top:0}
+input{width:100%;padding:14px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text);margin:8px 0 16px}
+label{font-weight:700;font-size:14px}
+.login-wrap{min-height:85vh;display:grid;place-items:center}
+.login-card{max-width:440px;width:100%;padding:35px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.stat{font-size:30px;font-weight:800;margin:8px 0}
+.small{font-size:13px;color:var(--muted)}
+.progress{height:9px;background:var(--border);border-radius:20px;overflow:hidden;margin:15px 0}
+.progress span{display:block;height:100%;background:var(--primary);width:0%;transition:.2s}
+.option{display:block;width:100%;text-align:left;padding:14px;margin:10px 0;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text)}
+.option:hover{border-color:var(--primary)}
+.option.selected{border:2px solid var(--primary);background:var(--soft)}
+.question{font-size:19px;font-weight:700;line-height:1.5;margin:20px 0}
+.tag{display:inline-block;background:var(--soft);color:var(--primary);padding:6px 10px;border-radius:20px;font-size:12px;font-weight:700}
+.footer{margin-top:45px;text-align:center;color:var(--muted);font-size:13px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.container{padding:16px}}
 </style>
 </head>
 <body>
+<div class="container">
 
-<header>
-    <div class="logo">Prepify<span>.</span></div>
-    <div class="header-actions">
-        <button class="icon-btn" onclick="changeFont(-1)">A−</button>
-        <button class="icon-btn" onclick="changeFont(1)">A+</button>
-        <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
-    </div>
+<header class="topbar">
+  <div class="logo">prepify<span style="color:var(--text)">.</span></div>
+  <div class="actions">
+    <button class="btn outline" onclick="changeFont(-1)">A−</button>
+    <button class="btn outline" onclick="changeFont(1)">A+</button>
+    <button class="btn outline" onclick="toggleTheme()">☾ / ☀</button>
+    <button id="logoutBtn" class="btn danger hidden" onclick="logout()">Log out</button>
+  </div>
 </header>
 
-<div id="onboarding">
-    <div class="progress"><div id="progressFill"></div></div>
-    <div class="counter" id="counter">STEP 01 OF 04</div>
+<section id="loginPage" class="login-wrap">
+  <div class="card login-card">
+    <span class="tag">YOUR SAT JOURNEY STARTS HERE</span>
+    <h1>Welcome to Prepify.</h1>
+    <p class="muted">Sign in with your email to continue your personalized SAT preparation.</p>
+    <form id="loginForm">
+      <label for="email">Email address</label>
+      <input id="email" type="email" placeholder="example@email.com" required>
+      <button class="btn" style="width:100%" type="submit">Continue with email →</button>
+    </form>
+    <p class="small">This prototype saves your session in this browser. Email verification is not enabled yet.</p>
+  </div>
+</section>
 
-    <div class="step active" id="step1">
-        <div class="step-icon">✦</div>
-        <h1>Your future starts <span>here.</span></h1>
-        <p class="description">Welcome to Prepify. A smarter, more personalized way to prepare for the SAT. Let's build your journey together.</p>
-        <label class="field-label">Your email address</label>
-        <input class="field" id="email" type="email" placeholder="example@email.com">
-        <p class="note">Create your learning profile and start working towards your dream university.</p>
-        <button class="primary-btn" onclick="next(1)">Get Started →</button>
+<section id="setupPage" class="hidden">
+  <div class="card">
+    <span class="tag">PERSONALIZATION</span>
+    <h1>Let's build your SAT plan.</h1>
+    <p class="muted">Tell us about your goals. You can change these later.</p>
+    <div class="grid">
+      <div>
+        <label>Target Math score</label>
+        <input id="mathTarget" type="number" min="200" max="800" value="700">
+      </div>
+      <div>
+        <label>Target Reading & Writing score</label>
+        <input id="rwTarget" type="number" min="200" max="800" value="700">
+      </div>
+      <div>
+        <label>Daily Math lessons</label>
+        <input id="mathDaily" type="number" min="1" max="10" value="2">
+      </div>
+      <div>
+        <label>Daily Reading & Writing lessons</label>
+        <input id="rwDaily" type="number" min="1" max="10" value="2">
+      </div>
     </div>
+    <label>How would you describe your SAT experience?</label>
+    <div style="margin:12px 0">
+      <label><input type="radio" name="experience" value="beginner" checked style="width:auto;margin-right:8px">I'm a beginner / I have little knowledge.</label><br><br>
+      <label><input type="radio" name="experience" value="experienced" style="width:auto;margin-right:8px">I'm experienced / I've studied SAT before.</label>
+    </div>
+    <button class="btn" onclick="saveSetup()">Continue to diagnostic test →</button>
+  </div>
+</section>
 
-    <div class="step" id="step2">
-        <div class="step-icon">🎯</div>
-        <h1>What's your <span>dream score?</span></h1>
-        <p class="description">Set your target for both SAT sections. Every great achievement starts with a clear goal.</p>
-        <div class="target-card">
-            <div class="target-heading"><span>📐 SAT Math</span><strong id="mathValue">750</strong></div>
-            <input type="range" id="math" min="200" max="800" step="10" value="750" oninput="updateScores()">
-            <div class="range-labels"><span>200</span><span>800</span></div>
-        </div>
-        <div class="target-card">
-            <div class="target-heading"><span>📖 Reading & Writing</span><strong id="readingValue">750</strong></div>
-            <input type="range" id="reading" min="200" max="800" step="10" value="750" oninput="updateScores()">
-            <div class="range-labels"><span>200</span><span>800</span></div>
-        </div>
-        <div class="total-target"><span>Total target</span><strong id="total">1500 / 1600</strong></div>
-        <button class="primary-btn" onclick="next(2)">Continue →</button>
-        <button class="back-btn" onclick="back(2)">← Go Back</button>
+<section id="testPage" class="hidden">
+  <div class="card">
+    <span class="tag">PLACEMENT TEST</span>
+    <h1>Let's find your level.</h1>
+    <p class="muted">15 questions: 10 Math and 5 Reading & Writing. The test starts at a suitable level and adjusts the next questions based on your answers.</p>
+    <div class="grid">
+      <div><b>Math</b><p class="muted">5 medium + 5 challenging questions</p></div>
+      <div><b>Reading & Writing</b><p class="muted">2 vocabulary + 3 reading questions</p></div>
     </div>
+    <button class="btn" onclick="startTest()">Start diagnostic test →</button>
+  </div>
+</section>
 
-    <div class="step" id="step3">
-        <div class="step-icon">📅</div>
-        <h1>Design your <span>daily routine.</span></h1>
-        <p class="description">Consistency beats intensity. Choose how many lessons you can realistically complete each day.</p>
-        <div class="study-card">
-            <div><h3>📐 Math</h3><p>Daily Math lessons</p></div>
-            <select id="mathLessons">
-                <option value="1">1 lesson</option>
-                <option value="2" selected>2 lessons</option>
-                <option value="3">3 lessons</option>
-                <option value="4">4 lessons</option>
-                <option value="5">5 lessons</option>
-            </select>
-        </div>
-        <div class="study-card">
-            <div><h3>📖 Reading & Writing</h3><p>Daily English lessons</p></div>
-            <select id="readingLessons">
-                <option value="1">1 lesson</option>
-                <option value="2" selected>2 lessons</option>
-                <option value="3">3 lessons</option>
-                <option value="4">4 lessons</option>
-                <option value="5">5 lessons</option>
-            </select>
-        </div>
-        <p class="note">You can adjust your daily learning goals anytime.</p>
-        <button class="primary-btn" onclick="next(3)">Continue →</button>
-        <button class="back-btn" onclick="back(3)">← Go Back</button>
+<section id="questionPage" class="hidden">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:10px">
+      <span class="tag" id="sectionTag">MATH</span>
+      <span class="muted" id="questionCount">Question 1 of 15</span>
     </div>
+    <div class="progress"><span id="progressBar"></span></div>
+    <p class="small" id="difficultyLabel">MEDIUM</p>
+    <div class="question" id="questionText"></div>
+    <div id="options"></div>
+    <p id="feedback" class="muted"></p>
+    <button id="nextBtn" class="btn" onclick="nextQuestion()" disabled>Submit answer</button>
+  </div>
+</section>
 
-    <div class="step" id="step4">
-        <div class="step-icon">🚀</div>
-        <h1>Tell us about your <span>experience.</span></h1>
-        <p class="description">Where are you in your SAT preparation journey?</p>
-        <label class="experience-option">
-            <input type="radio" name="experience" value="Beginner" checked>
-            <div><strong>I'm completely new</strong><small>I'm just starting to learn about the SAT.</small></div>
-        </label>
-        <label class="experience-option">
-            <input type="radio" name="experience" value="Intermediate">
-            <div><strong>I've studied a little</strong><small>I know the basics and have practiced before.</small></div>
-        </label>
-        <label class="experience-option">
-            <input type="radio" name="experience" value="Experienced">
-            <div><strong>I'm already experienced</strong><small>I've taken practice tests and prepared before.</small></div>
-        </label>
-        <button class="primary-btn" onclick="finish()">Create My Learning Plan →</button>
-        <button class="back-btn" onclick="back(4)">← Go Back</button>
+<section id="resultPage" class="hidden">
+  <div class="card">
+    <span class="tag">DIAGNOSTIC RESULTS</span>
+    <h1>Your starting point.</h1>
+    <p class="muted">This is an initial estimate based on a short placement test, not an official SAT score prediction.</p>
+    <div class="grid">
+      <div class="card">
+        <p class="muted">Math diagnostic estimate</p>
+        <div class="stat" id="mathResult">—</div>
+        <p class="small" id="mathAccuracy"></p>
+      </div>
+      <div class="card">
+        <p class="muted">Reading & Writing estimate</p>
+        <div class="stat" id="rwResult">—</div>
+        <p class="small" id="rwAccuracy"></p>
+      </div>
     </div>
+    <h2>What this means</h2>
+    <p id="resultAdvice" class="muted"></p>
+    <p class="small">A 15-question test cannot reliably predict an exact SAT score. These broad ranges are only for choosing your next lessons. Take a full-length official Bluebook practice test for a more meaningful score estimate.</p>
+    <button class="btn" onclick="showDashboard()">Go to my dashboard →</button>
+  </div>
+</section>
+
+<section id="dashboardPage" class="hidden">
+  <div class="card">
+    <span class="tag">YOUR DASHBOARD</span>
+    <h1>Welcome back!</h1>
+    <p class="muted">Signed in as <b id="userEmail"></b></p>
+    <div class="grid">
+      <div class="card">
+        <p class="muted">Math target</p>
+        <div class="stat" id="dashMath">700</div>
+      </div>
+      <div class="card">
+        <p class="muted">Reading & Writing target</p>
+        <div class="stat" id="dashRW">700</div>
+      </div>
+    </div>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h2>Math practice</h2>
+      <p class="muted">Build your algebra, advanced math, problem-solving and data analysis skills.</p>
+      <p id="mathPlan" class="small"></p>
+      <button class="btn" onclick="restartTest()">Practice diagnostic</button>
+    </div>
+    <div class="card">
+      <h2>Reading & Writing</h2>
+      <p class="muted">Improve vocabulary, reading comprehension, grammar and writing skills.</p>
+      <p id="rwPlan" class="small"></p>
+      <button class="btn secondary" onclick="restartTest()">Practice diagnostic</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Official SAT resources</h2>
+    <p class="muted">Use official College Board materials for full-length practice and authentic questions.</p>
+    <a href="https://satsuite.collegeboard.org/sat/practice-preparation" target="_blank" rel="noopener">College Board SAT Practice →</a><br><br>
+    <a href="https://bluebook.collegeboard.org/" target="_blank" rel="noopener">Bluebook practice tests →</a>
+  </div>
+</section>
+
+<div class="footer">Prepify · Learn smarter. Prepare better.</div>
 </div>
-
-<div id="dashboard" class="hidden">
-    <div class="welcome">
-        <small>YOUR PERSONAL SAT DASHBOARD</small>
-        <h1>Welcome to Prepify! ✨</h1>
-        <p>Your goals are set. Your journey begins today.</p>
-    </div>
-
-    <h2 class="section-title">Your target scores</h2>
-    <div class="stats">
-        <div class="stat"><small>Math Target</small><h2 id="dashMath">750</h2><p>OUT OF 800</p></div>
-        <div class="stat"><small>Reading & Writing</small><h2 id="dashReading">750</h2><p>OUT OF 800</p></div>
-        <div class="stat"><small>Total Target</small><h2 id="dashTotal">1500</h2><p>OUT OF 1600</p></div>
-    </div>
-
-    <h2 class="section-title">Your daily study plan</h2>
-    <div class="stats">
-        <div class="stat"><small>Math lessons / day</small><h2 id="dashML">2</h2><p>DAILY GOAL</p></div>
-        <div class="stat"><small>English lessons / day</small><h2 id="dashRL">2</h2><p>DAILY GOAL</p></div>
-        <div class="stat"><small>Your experience</small><h2 id="dashExperience" style="font-size:20px">Beginner</h2><p>LEARNING LEVEL</p></div>
-    </div>
-
-    <h2 class="section-title">Start learning</h2>
-    <div class="lesson-grid">
-        <div class="lesson">
-            <div class="lesson-icon">📐</div>
-            <h3>SAT Math</h3>
-            <p>Master algebra, advanced math, problem solving and data analysis.</p>
-            <button onclick="notify('Math lessons are coming soon!')">Explore Math →</button>
-        </div>
-        <div class="lesson">
-            <div class="lesson-icon">📖</div>
-            <h3>Reading & Writing</h3>
-            <p>Improve grammar, vocabulary, comprehension and writing skills.</p>
-            <button onclick="notify('Reading & Writing lessons are coming soon!')">Explore English →</button>
-        </div>
-        <div class="lesson">
-            <div class="lesson-icon">📝</div>
-            <h3>Practice Tests</h3>
-            <p>Test your knowledge with SAT-style practice questions.</p>
-            <button onclick="notify('Practice tests are coming soon!')">Start Practice →</button>
-        </div>
-        <div class="lesson">
-            <div class="lesson-icon">📊</div>
-            <h3>My Progress</h3>
-            <p>Track your preparation and monitor your achievements.</p>
-            <button onclick="notify('Progress tracking is coming soon!')">View Progress →</button>
-        </div>
-    </div>
-    <div class="dashboard-footer">PREPIFY © 2026 · BUILT FOR YOUR FUTURE</div>
-</div>
-
-<div id="toast"></div>
 
 <script>
-let fontSize = Number(localStorage.getItem("prepify-font") || 1);
+const $ = id => document.getElementById(id);
+const pages = ["loginPage","setupPage","testPage","questionPage","resultPage","dashboardPage"];
+let fontSize = 16;
+let questions = [];
+let current = 0;
+let answers = [];
+let selected = null;
+let difficulty = {math:0,rw:0};
 
-function changeFont(direction) {
-    fontSize = Math.max(.85,Math.min(1.2,fontSize + direction*.05));
-    document.body.style.zoom = fontSize;
-    localStorage.setItem("prepify-font",fontSize);
+function showPage(id){
+  pages.forEach(p=>$(p).classList.add("hidden"));
+  $(id).classList.remove("hidden");
+  $("logoutBtn").classList.toggle("hidden",id==="loginPage");
 }
+function toggleTheme(){document.body.classList.toggle("dark");localStorage.setItem("prepifyTheme",document.body.classList.contains("dark")?"dark":"light")}
+function changeFont(n){fontSize=Math.max(14,Math.min(21,fontSize+n));document.body.style.fontSize=fontSize+"px"}
+if(localStorage.getItem("prepifyTheme")==="dark")document.body.classList.add("dark");
 
-document.body.style.zoom=fontSize;
-
-function toggleTheme() {
-    document.body.classList.toggle("light");
-    localStorage.setItem("prepify-theme",document.body.classList.contains("light")?"light":"dark");
+function login(email){
+  localStorage.setItem("prepifySession",email);
+  $("userEmail").textContent=email;
+  const profile=JSON.parse(localStorage.getItem("prepifyProfile")||"null");
+  if(profile){showDashboard()}else{showPage("setupPage")}
 }
-if(localStorage.getItem("prepify-theme")==="light") {
-    document.body.classList.add("light");
+$("loginForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const email=$("email").value.trim().toLowerCase();
+  if(!email)return;
+  login(email);
+});
+function logout(){
+  localStorage.removeItem("prepifySession");
+  $("email").value="";
+  showPage("loginPage");
 }
-
-function showStep(n) {
-    document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));
-    document.getElementById("step"+n).classList.add("active");
-    document.getElementById("counter").textContent=`STEP 0${n} OF 04`;
-    document.getElementById("progressFill").style.width=(n*25)+"%";
+window.addEventListener("load",()=>{
+  const email=localStorage.getItem("prepifySession");
+  if(email)login(email);else showPage("loginPage");
+});
+function saveSetup(){
+  const profile={
+    mathTarget:Number($("mathTarget").value),
+    rwTarget:Number($("rwTarget").value),
+    mathDaily:Number($("mathDaily").value),
+    rwDaily:Number($("rwDaily").value),
+    experience:document.querySelector('input[name="experience"]:checked').value
+  };
+  if(profile.mathTarget<200||profile.mathTarget>800||profile.rwTarget<200||profile.rwTarget>800){alert("Please enter target scores between 200 and 800.");return}
+  localStorage.setItem("prepifyProfile",JSON.stringify(profile));
+  showPage("testPage");
 }
-
-function next(n) {
-    if(n===1) {
-        const email=document.getElementById("email").value.trim();
-        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            notify("Please enter a valid email address.");
-            return;
-        }
-    }
-    showStep(n+1);
+const bank=[
+{section:"math",level:1,type:"Functions",q:"If f(x) = 3x + 7, what is the value of f(4)?",o:["12","19","21","28"],a:1},
+{section:"math",level:1,type:"Functions",q:"If g(x) = x² − 5, what is g(3)?",o:["2","4","9","14"],a:1},
+{section:"math",level:1,type:"Functions",q:"A function is defined by h(x) = 2x − 1. Which expression represents h(a + 3)?",o:["2a + 2","2a + 3","2a + 5","2a − 1"],a:0},
+{section:"math",level:1,type:"Functions",q:"The function f(x) = 4x + b passes through (2, 13). What is b?",o:["3","5","7","9"],a:1},
+{section:"math",level:1,type:"Functions",q:"If p(x) = x/3 + 2, what value of x gives p(x) = 6?",o:["8","10","12","18"],a:2},
+{section:"math",level:2,type:"Advanced Math",q:"The equation x² − 8x + k = 0 has exactly one real solution. What is k?",o:["8","12","16","32"],a:2},
+{section:"math",level:2,type:"Advanced Math",q:"A quadratic function has zeros at 2 and 7 and passes through (0, −28). Which equation could represent it?",o:["f(x)=2(x−2)(x−7)","f(x)=−2(x−2)(x−7)","f(x)=(x+2)(x+7)","f(x)=2(x+2)(x−7)"],a:0},
+{section:"math",level:2,type:"Problem Solving",q:"A quantity increases by 20% and then decreases by 20%. The final value is what percent of the original?",o:["96%","100%","104%","80%"],a:0},
+{section:"math",level:2,type:"Advanced Math",q:"For what value of c does the system y = 2x + 1 and y = 2x + c have no solution?",o:["0","1","2","Any value except 1"],a:3},
+{section:"math",level:2,type:"Problem Solving",q:"A circle has equation (x−3)²+(y+2)²=49. What is its radius?",o:["3","7","14","49"],a:1},
+{section:"rw",level:1,type:"Vocabulary",q:"In the sentence, 'The scientist's findings were preliminary,' what does 'preliminary' most nearly mean?",o:["Final","Initial","Unrelated","Unreliable"],a:1},
+{section:"rw",level:2,type:"Vocabulary",q:"In the sentence, 'The author's argument was nuanced,' what does 'nuanced' most nearly mean?",o:["Oversimplified","Containing subtle distinctions","Completely incorrect","Widely known"],a:1},
+{section:"rw",level:1,type:"Reading",q:"Passage: A town planted trees along its main streets. Several years later, residents reported more shade and said the streets felt more pleasant. Which choice best states the passage's main idea?",o:["The town removed its main streets.","Tree planting improved the street environment.","Residents disliked the new trees.","The town stopped maintaining its streets."],a:1},
+{section:"rw",level:2,type:"Reading",q:"Passage: Although the first study suggested that the device reduced energy use, a later investigation found that the effect depended on how often the device was used. Which statement best captures the relationship between the studies?",o:["The later study completely confirmed the first.","The later study qualified the first study's conclusion.","The first study was about a different device.","Both studies found no effect."],a:1},
+{section:"rw",level:2,type:"Reading",q:"Passage: Some historians once attributed the city's growth primarily to trade. Newly examined letters, however, suggest that improvements in irrigation also played a substantial role. What is the main purpose of the passage?",o:["To reject all earlier historical research","To introduce evidence for an additional explanation","To describe how letters were written","To argue that trade had no influence"],a:1}
+];
+function startTest(){
+  const profile=JSON.parse(localStorage.getItem("prepifyProfile")||"{}");
+  // Beginners start with medium items; experienced learners receive a challenging sequence sooner.
+  questions=bank.map(q=>({...q}));
+  if(profile.experience==="experienced"){
+    questions.sort((a,b)=>b.level-a.level);
+  } else {
+    questions.sort((a,b)=>a.level-b.level);
+  }
+  // Keep the requested 10 Math + 5 Reading & Writing structure.
+  questions=questions.slice(0,15);
+  current=0;answers=[];difficulty={math:0,rw:0};
+  showPage("questionPage");renderQuestion();
 }
-
-function back(n) {showStep(n-1)}
-
-function updateScores() {
-    const m=Number(document.getElementById("math").value);
-    const r=Number(document.getElementById("reading").value);
-    document.getElementById("mathValue").textContent=m;
-    document.getElementById("readingValue").textContent=r;
-    document.getElementById("total").textContent=(m+r)+" / 1600";
+function renderQuestion(){
+  const q=questions[current];selected=null;
+  $("sectionTag").textContent=q.section==="math"?"MATH":"READING & WRITING";
+  $("questionCount").textContent=`Question ${current+1} of ${questions.length}`;
+  $("progressBar").style.width=(current/questions.length*100)+"%";
+  $("difficultyLabel").textContent=(q.level===1?"MEDIUM":"CHALLENGING")+" · "+q.type;
+  $("questionText").textContent=q.q;
+  $("options").innerHTML="";
+  q.o.forEach((option,i)=>{
+    const b=document.createElement("button");b.className="option";b.textContent=String.fromCharCode(65+i)+". "+option;
+    b.onclick=()=>{selected=i;document.querySelectorAll(".option").forEach(x=>x.classList.remove("selected"));b.classList.add("selected");$("nextBtn").disabled=false};
+    $("options").appendChild(b);
+  });
+  $("feedback").textContent="";
+  $("nextBtn").disabled=true;
+  $("nextBtn").textContent=current===questions.length-1?"Finish test":"Submit answer";
 }
-
-function finish() {
-    const profile={
-        email:document.getElementById("email").value.trim(),
-        math:Number(document.getElementById("math").value),
-        reading:Number(document.getElementById("reading").value),
-        mathLessons:Number(document.getElementById("mathLessons").value),
-        readingLessons:Number(document.getElementById("readingLessons").value),
-        experience:document.querySelector('input[name="experience"]:checked').value
-    };
-
-    localStorage.setItem("prepify-profile",JSON.stringify(profile));
-    showDashboard(profile);
+function nextQuestion(){
+  if(selected===null)return;
+  const q=questions[current],correct=selected===q.a;
+  answers.push({section:q.section,correct,level:q.level});
+  if(correct)difficulty[q.section]++;
+  $("feedback").textContent=correct?"Answer recorded.":"Answer recorded. Keep going!";
+  current++;
+  if(current>=questions.length){showResults();return}
+  renderQuestion();
 }
-
-function showDashboard(p) {
-    document.getElementById("onboarding").classList.add("hidden");
-    document.getElementById("dashboard").classList.remove("hidden");
-
-    document.getElementById("dashMath").textContent=p.math;
-    document.getElementById("dashReading").textContent=p.reading;
-    document.getElementById("dashTotal").textContent=p.math+p.reading;
-    document.getElementById("dashML").textContent=p.mathLessons;
-    document.getElementById("dashRL").textContent=p.readingLessons;
-    document.getElementById("dashExperience").textContent=p.experience;
+function estimate(section){
+  const subset=answers.filter(a=>a.section===section);
+  const correct=subset.filter(a=>a.correct).length;
+  const total=subset.length;
+  const ratio=total?correct/total:0;
+  // Broad diagnostic bands only; intentionally not a precise SAT prediction.
+  let range;
+  if(section==="math"){
+    range=ratio<.3?"200–390":ratio<.5?"390–490":ratio<.7?"490–590":ratio<.9?"590–690":"650–740";
+  }else{
+    range=ratio<.3?"200–390":ratio<.5?"390–490":ratio<.7?"490–590":ratio<.9?"590–690":"650–740";
+  }
+  return {correct,total,range};
 }
-
-function notify(message) {
-    const toast=document.getElementById("toast");
-    toast.textContent=message;
-    toast.style.display="block";
-    clearTimeout(window.toastTimer);
-    window.toastTimer=setTimeout(()=>toast.style.display="none",2500);
+function showResults(){
+  const m=estimate("math"),r=estimate("rw");
+  $("mathResult").textContent=m.range;
+  $("rwResult").textContent=r.range;
+  $("mathAccuracy").textContent=`${m.correct} correct out of ${m.total}`;
+  $("rwAccuracy").textContent=`${r.correct} correct out of ${r.total}`;
+  $("resultAdvice").textContent=`You answered ${m.correct}/10 Math questions and ${r.correct}/5 Reading & Writing questions correctly. Your next lessons should focus on the question types you found difficult. These ranges are deliberately broad because this short test is not a full adaptive SAT exam.`;
+  const old=JSON.parse(localStorage.getItem("prepifyProfile")||"{}");
+  old.lastDiagnostic={math:m.range,rw:r.range,mathCorrect:m.correct,rwCorrect:r.correct};
+  localStorage.setItem("prepifyProfile",JSON.stringify(old));
+  showPage("resultPage");
 }
-
-// RESTORE SAVED PROFILE
-try {
-    const saved=JSON.parse(localStorage.getItem("prepify-profile"));
-    if(saved && saved.email) showDashboard(saved);
-} catch(e) {
-    localStorage.removeItem("prepify-profile");
+function showDashboard(){
+  const p=JSON.parse(localStorage.getItem("prepifyProfile")||"{}");
+  $("userEmail").textContent=localStorage.getItem("prepifySession")||"";
+  $("dashMath").textContent=p.mathTarget||700;
+  $("dashRW").textContent=p.rwTarget||700;
+  $("mathPlan").textContent=`Your daily goal: ${p.mathDaily||2} Math lessons`;
+  $("rwPlan").textContent=`Your daily goal: ${p.rwDaily||2} Reading & Writing lessons`;
+  showPage("dashboardPage");
 }
+function restartTest(){showPage("testPage")}
 </script>
 </body>
 </html>
