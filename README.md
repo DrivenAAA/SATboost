@@ -4,732 +4,1206 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prepify | SAT Preparation</title>
+<title>SATboost | SAT Preparation</title>
 <style>
 :root{
- --bg:#f4f6fb;--panel:#fff;--text:#17213a;--muted:#78849b;
- --line:#e4e9f2;--primary:#6256e8;--soft:#f0efff;
- --green:#159b72;--red:#df5968;
+ --bg:#f5f6f8;
+ --surface:#ffffff;
+ --surface2:#f8f9fb;
+ --text:#17202e;
+ --muted:#778293;
+ --border:#e4e8ee;
+ --primary:#3157d5;
+ --primary-light:#edf1ff;
+ --green:#16845d;
+ --green-bg:#eaf7f1;
+ --red:#c74651;
+ --red-bg:#fff0f0;
+ --shadow:0 5px 24px rgba(25,40,70,.045);
 }
 body.dark{
- --bg:#111522;--panel:#1b2232;--text:#edf0fa;
- --muted:#9ba6bb;--line:#30394c;--primary:#9288ff;--soft:#292644;
+ --bg:#10151e;
+ --surface:#19212d;
+ --surface2:#202a38;
+ --text:#edf1f8;
+ --muted:#a0adbf;
+ --border:#303c4d;
+ --primary:#8da5ff;
+ --primary-light:#273453;
+ --green:#55c99a;
+ --green-bg:#19392f;
+ --red:#ff8585;
+ --red-bg:#40282d;
+ --shadow:0 5px 24px rgba(0,0,0,.15);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-button,input,select{font:inherit}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Arial,Helvetica,sans-serif;
+}
+button,input{font:inherit}
 button{cursor:pointer}
-a{color:var(--primary)}
-.app{display:flex;min-height:100vh}
+button:disabled{opacity:.4;cursor:not-allowed}
+.app{display:none;min-height:100vh}
 .sidebar{
- width:260px;position:fixed;inset:0 auto 0 0;
- background:var(--panel);border-right:1px solid var(--line);
- padding:22px 15px;display:flex;flex-direction:column;
- z-index:20;overflow-y:auto;
+ width:255px;position:fixed;left:0;top:0;bottom:0;
+ background:var(--surface);border-right:1px solid var(--border);
+ display:flex;flex-direction:column;padding:22px 15px;
+ z-index:30;overflow-y:auto;
 }
-.logo{font-size:24px;font-weight:800;display:flex;align-items:center;gap:10px;padding:0 10px 28px}
-.logo-icon{background:var(--primary);color:white;border-radius:11px;width:37px;height:37px;display:grid;place-items:center}
-.nav-label{font-size:11px;font-weight:800;letter-spacing:1.4px;color:var(--muted);padding:14px 12px 7px}
-.nav-btn{display:block;width:100%;text-align:left;padding:13px 12px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:13px;font-weight:650;margin:2px 0}
-.nav-btn:hover,.nav-btn.active{background:var(--soft);color:var(--primary)}
-.sidebar-bottom{margin-top:auto;border-top:1px solid var(--line);padding-top:12px}
-.profile{padding:12px;font-size:12px;overflow-wrap:anywhere}
-.profile small{display:block;color:var(--muted);margin-top:5px}
+.brand{
+ display:flex;align-items:center;gap:11px;
+ padding:2px 10px 34px;font-size:25px;font-weight:800;
+ letter-spacing:-.8px;
+}
+.brand-icon{
+ width:39px;height:39px;border-radius:10px;
+ display:grid;place-items:center;background:#3157d5;
+ color:white;font-size:23px;font-weight:800;
+}
+.nav-heading{
+ font-size:10px;font-weight:800;letter-spacing:1.5px;
+ color:var(--muted);padding:13px 12px 8px;
+}
+.nav-btn{
+ border:0;background:transparent;color:var(--muted);
+ text-align:left;width:100%;padding:13px 12px;
+ border-radius:8px;font-size:13px;font-weight:650;
+ margin:2px 0;display:flex;align-items:center;gap:11px;
+}
+.nav-btn:hover{background:var(--surface2);color:var(--text)}
+.nav-btn.active{background:var(--primary-light);color:var(--primary)}
+.nav-icon{width:17px;text-align:center;font-size:15px}
+.sidebar-bottom{margin-top:auto;border-top:1px solid var(--border);padding-top:12px}
+.profile{
+ display:flex;align-items:center;gap:10px;padding:13px 9px;
+ overflow-wrap:anywhere;
+}
+.avatar{
+ width:34px;height:34px;border-radius:50%;background:var(--primary-light);
+ color:var(--primary);display:grid;place-items:center;font-weight:800;flex-shrink:0;
+}
+.profile-email{font-size:11px;font-weight:700;overflow-wrap:anywhere}
+.profile-role{font-size:11px;color:var(--muted);margin-top:4px}
 .main{
- margin-left:260px;width:calc(100% - 260px);
- min-width:0;padding:28px 34px 60px;
+ margin-left:255px;width:calc(100% - 255px);
+ min-width:0;padding:30px 38px 65px;
 }
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
-h1{font-size:29px;margin:0}h2{font-size:21px;margin:0 0 13px}h3{font-size:16px;margin:0 0 9px}
-.muted{color:var(--muted);font-size:13px;line-height:1.6}
-.eyebrow{font-size:11px;color:var(--muted);margin-bottom:8px;letter-spacing:.4px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px}
-.grid{display:grid;gap:16px}
-.stats{grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:18px}
-.stat-label{font-size:12px;color:var(--muted)}
-.stat-value{font-size:28px;font-weight:800;margin:10px 0}
-.progress{height:7px;background:var(--line);border-radius:20px;overflow:hidden;margin:12px 0}
-.progress span{display:block;height:100%;background:var(--primary)}
-.primary,.secondary,.icon-btn{border-radius:9px;padding:11px 15px;font-weight:650}
-.primary{background:var(--primary);color:white;border:0}
-.primary:hover{filter:brightness(1.08)}
-.secondary,.icon-btn{background:var(--panel);border:1px solid var(--line);color:var(--text)}
+.topbar{
+ display:flex;justify-content:space-between;align-items:center;
+ margin-bottom:30px;gap:15px;
+}
+.topbar-left{display:flex;align-items:center;gap:13px}
+.eyebrow{
+ font-size:10px;letter-spacing:1.3px;font-weight:800;
+ color:var(--muted);margin-bottom:9px;
+}
+h1{font-size:29px;letter-spacing:-.7px;margin:0;font-weight:750}
+h2{font-size:21px;margin:0 0 9px;letter-spacing:-.3px}
+h3{font-size:16px;margin:0 0 8px}
+p{line-height:1.65}
+.muted{color:var(--muted);font-size:13px;line-height:1.65}
 .page{display:none;width:100%;min-width:0}
 .page.active{display:block}
-.welcome{background:linear-gradient(120deg,#5147ce,#887df8);color:white;border:0;padding:30px;margin-bottom:18px}
-.welcome p{font-size:14px;line-height:1.7;max-width:650px}
-.welcome .primary{background:white;color:#5147ce}
-.dashboard-grid{grid-template-columns:1.3fr 1fr}
-.topic-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-.topic-card{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.topic-card p{font-size:12px;color:var(--muted);margin:5px 0}
-.tag{background:var(--soft);color:var(--primary);font-size:10px;font-weight:750;padding:6px 9px;border-radius:20px}
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
-.filters input,.filters select,.modal input{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:13px;border-radius:9px}
-.filters input{flex:1;min-width:190px}
-.list{display:grid;gap:10px}
-.list-item{border:1px solid var(--line);padding:14px;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.page-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.empty{text-align:center;color:var(--muted);padding:45px 15px}
-.modal-bg{display:none;position:fixed;inset:0;background:#080d1acc;z-index:50;place-items:center;padding:20px}
-.modal-bg.show{display:grid}
-.modal{width:min(480px,100%);background:var(--panel);padding:27px;border-radius:16px}
-.login-screen{min-height:100vh;display:grid;place-items:center;padding:20px}
-.login-box{width:min(420px,100%);padding:35px;background:var(--panel);border:1px solid var(--line);border-radius:17px}
-.login-box input{width:100%;padding:13px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--text);margin:9px 0 15px}
-.login-box .primary{width:100%}
-
-/* QUESTION BANK - FULL WIDTH */
-#page-bank{width:100%;max-width:none;margin:0;padding:0}
-.bank-intro{padding:27px;margin-bottom:18px}
-.bank-intro h2{font-size:25px}
+.card{
+ background:var(--surface);border:1px solid var(--border);
+ border-radius:12px;box-shadow:var(--shadow);
+}
+.btn{
+ border:1px solid var(--border);background:var(--surface);
+ color:var(--text);border-radius:7px;padding:11px 16px;
+ font-size:13px;font-weight:650;
+}
+.btn:hover{border-color:var(--primary)}
+.btn-primary{background:var(--primary);border-color:var(--primary);color:white}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-light{background:var(--primary-light);border-color:transparent;color:var(--primary)}
+.btn-row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.tag{
+ display:inline-flex;align-items:center;padding:6px 9px;
+ border-radius:5px;background:var(--primary-light);
+ color:var(--primary);font-size:10px;font-weight:800;
+}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}
+.stat-card{padding:19px}
+.stat-label{font-size:12px;color:var(--muted)}
+.stat-value{font-size:27px;font-weight:800;margin-top:12px}
+.welcome{
+ padding:30px;background:var(--surface);border:1px solid var(--border);
+ border-radius:12px;
+}
+.welcome p{max-width:620px;color:var(--muted);font-size:14px}
+.section-heading{
+ display:flex;align-items:flex-end;justify-content:space-between;
+ gap:15px;margin:30px 0 15px;
+}
+.section-heading h2{margin:0}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.topic-card{
+ padding:22px;transition:border-color .15s,transform .15s;
+}
+.topic-card:hover{border-color:var(--primary);transform:translateY(-2px)}
+.topic-card-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.topic-card p{font-size:12px;color:var(--muted);min-height:38px}
+.topic-count{font-size:12px;color:var(--muted);margin:18px 0 14px}
+.topic-card-footer{
+ border-top:1px solid var(--border);padding-top:14px;
+ display:flex;justify-content:space-between;align-items:center;
+}
+.bank-header{
+ display:flex;justify-content:space-between;align-items:flex-start;
+ gap:15px;margin-bottom:22px;
+}
+.bank-header p{margin:7px 0 0;color:var(--muted);font-size:13px}
 .bank-toolbar{
- display:grid;grid-template-columns:minmax(200px,1.4fr) minmax(180px,1fr) minmax(150px,.7fr);
- gap:12px;margin:18px 0;
+ display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+ margin:20px 0;
 }
-.bank-toolbar input,.bank-toolbar select{
- width:100%;min-width:0;padding:14px;
- border:1px solid var(--line);border-radius:10px;
- background:var(--panel);color:var(--text);
+.search-box{
+ flex:1;min-width:210px;padding:12px 14px;
+ border:1px solid var(--border);border-radius:7px;
+ background:var(--surface);color:var(--text);outline:none;
 }
-.bank-topics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.bank-topic{padding:23px}
-.bank-topic .topic-description{color:var(--muted);font-size:13px;line-height:1.6;margin:8px 0 18px}
-.bank-topic-footer{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.bank-workspace{
- display:grid;grid-template-columns:minmax(0,2.1fr) minmax(270px,.9fr);
- gap:20px;width:100%;align-items:start;
+.search-box:focus{border-color:var(--primary)}
+.topic-screen{display:none}
+.level-panel{
+ padding:25px;margin-bottom:20px;
 }
-.bank-question-card{padding:27px;min-width:0}
-.bank-question-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:28px}
-.bank-question-text{font-size:21px;line-height:1.8;white-space:pre-line;margin:22px 0}
-.bank-options{display:grid;gap:11px;margin-top:22px}
-.bank-option{
- display:flex;align-items:flex-start;gap:13px;
- padding:15px;border:1px solid var(--line);border-radius:10px;
- cursor:pointer;background:var(--panel);line-height:1.6;
+.level-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-top:19px}
+.level-card{
+ border:1px solid var(--border);background:var(--surface);
+ color:var(--text);border-radius:9px;padding:19px;text-align:left;
 }
-.bank-option:hover{border-color:var(--primary)}
-.bank-option.selected{border:2px solid var(--primary);background:var(--soft);padding:14px}
-.bank-option.correct{border-color:var(--green);background:#159b7215}
-.bank-option.wrong{border-color:var(--red);background:#df596815}
-.option-letter{width:29px;height:29px;border-radius:8px;background:var(--bg);display:grid;place-items:center;font-weight:800;flex-shrink:0}
-.bank-side{display:grid;gap:15px}
-.bank-side .card{padding:24px}
-.bank-side h2{font-size:20px}
-.bank-side-number{font-size:31px;font-weight:850;margin:18px 0}
-.bank-navigation{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
-.bank-navigation button{width:42px;height:40px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--text)}
-.bank-navigation button.current{border:2px solid var(--primary);color:var(--primary)}
-.bank-navigation button.answered{background:#159b7215;border-color:#159b72}
-.bank-feedback{margin-top:17px;padding:16px;border-radius:10px;background:var(--soft);line-height:1.7}
-.bank-controls{display:flex;justify-content:space-between;gap:10px;margin-top:25px;flex-wrap:wrap}
-.bank-results{margin-top:20px}
-
-/* FULL SCREEN EXAM */
-.exam{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);color:var(--text);overflow:auto}
-.exam.active{display:flex;flex-direction:column}
-.exam-header{height:68px;background:var(--panel);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 4%;flex-shrink:0;gap:12px}
-.exam-logo{font-size:19px;font-weight:800;display:flex;align-items:center;gap:9px}
-.exam-header-right{display:flex;align-items:center;gap:15px}
-.clock{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;min-width:75px;text-align:center}
-.clock.warning{color:var(--red)}
-.exam-body{width:100%;max-width:1500px;margin:0 auto;padding:35px 5% 125px;flex:1}
-.exam-progress{height:5px;background:var(--line);border-radius:10px;margin:17px 0 28px}
-.exam-progress span{display:block;height:100%;background:var(--primary)}
-.exam-headline{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.exam-question-label{font-size:13px;font-weight:700;color:var(--muted)}
-.exam-question-text{font-size:22px;line-height:1.8;white-space:pre-line;margin:30px 0}
-.exam-choices{display:grid;gap:13px;max-width:1100px}
-.choice{display:flex;align-items:flex-start;gap:13px;padding:17px;border:1px solid var(--line);border-radius:11px;background:var(--panel);cursor:pointer;font-size:16px;line-height:1.6}
-.choice:hover{border-color:var(--primary)}
-.choice.selected{background:var(--soft);border:2px solid var(--primary);padding:16px}
-.choice-letter{width:29px;height:29px;border-radius:8px;background:var(--bg);display:grid;place-items:center;font-weight:800;flex-shrink:0}
-.exam-footer{position:fixed;bottom:0;left:0;right:0;z-index:5;background:var(--panel);border-top:1px solid var(--line);padding:14px 4%;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.footer-group{display:flex;align-items:center;gap:10px}
-.exam-navigator{display:none;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:17px;margin-top:20px}
-.exam-navigator.show{display:block}
-.navigator-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;margin-top:12px}
-.navigator-grid button{border:1px solid var(--line);background:var(--bg);color:var(--text);padding:10px;border-radius:8px}
-.navigator-grid button.current{border:2px solid var(--primary);color:var(--primary)}
-.navigator-grid button.answered{background:#159b7218;border-color:#159b7277}
-.navigator-grid button.flagged{outline:2px solid var(--red)}
-.exam-setup{max-width:760px;margin:35px auto;background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:35px}
-.exam-setup h1{font-size:29px;margin-bottom:12px}
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0}
-.mode-option{border:2px solid var(--line);border-radius:12px;padding:18px;cursor:pointer}
-.mode-option.active{border-color:var(--primary);background:var(--soft)}
-.mode-option b{display:block;margin-bottom:7px}
-.mode-option p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}
-.exam-setup select{width:100%;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--text);margin:8px 0 18px}
-.exam-result{text-align:center;padding:45px 20px}
-.exam-result .score{font-size:58px;font-weight:850;margin:20px 0}
-.result-stats{display:flex;justify-content:center;gap:35px;flex-wrap:wrap;margin:25px}
-.result-stats b{display:block;font-size:22px;margin-bottom:5px}
-@media(max-width:1000px){
- .stats{grid-template-columns:repeat(2,1fr)}
- .bank-workspace{grid-template-columns:minmax(0,1.6fr) minmax(240px,.8fr)}
- .bank-toolbar{grid-template-columns:1fr 1fr}
- .bank-toolbar input{grid-column:1/-1}
+.level-card:hover{border-color:var(--primary);background:var(--primary-light)}
+.level-card strong{font-size:17px;display:block;margin-bottom:8px}
+.level-card span{font-size:12px;color:var(--muted)}
+.level-card .level-count{display:block;font-size:12px;color:var(--primary);font-weight:750;margin-top:13px}
+.question-layout{
+ display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,.75fr);
+ gap:18px;align-items:start;width:100%;
 }
-@media(max-width:700px){
+.question-main{padding:27px;min-width:0}
+.question-top{
+ display:flex;align-items:center;justify-content:space-between;
+ flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--border);
+ padding-bottom:17px;
+}
+.question-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.question-number{font-size:11px;color:var(--muted);font-weight:750;letter-spacing:.5px}
+.question-text{
+ font-family:Georgia,"Times New Roman",serif;
+ font-size:21px;line-height:1.75;white-space:pre-line;
+ margin:27px 0;
+}
+.options{display:grid;gap:10px}
+.option{
+ display:flex;align-items:flex-start;gap:13px;padding:14px;
+ border:1px solid var(--border);border-radius:8px;
+ cursor:pointer;line-height:1.6;font-size:15px;
+ background:var(--surface);transition:.12s;
+}
+.option:hover{border-color:var(--primary)}
+.option.selected{border:1.5px solid var(--primary);background:var(--primary-light);padding:13.5px}
+.option.correct{border-color:var(--green);background:var(--green-bg)}
+.option.incorrect{border-color:var(--red);background:var(--red-bg)}
+.option-letter{
+ width:28px;height:28px;display:grid;place-items:center;
+ border-radius:5px;background:var(--surface2);
+ font-size:12px;font-weight:800;flex-shrink:0;
+}
+.answer-feedback{
+ display:none;margin-top:19px;padding:16px;
+ border-radius:8px;font-size:13px;line-height:1.7;
+}
+.answer-feedback.show{display:block}
+.answer-feedback.correct{background:var(--green-bg);color:var(--green)}
+.answer-feedback.incorrect{background:var(--red-bg);color:var(--red)}
+.explanation{
+ display:none;margin-top:12px;padding:18px;
+ background:var(--surface2);border:1px solid var(--border);
+ border-radius:8px;
+}
+.explanation.show{display:block}
+.explanation p{font-size:13px;line-height:1.8;margin:7px 0}
+.further-explanation{
+ display:none;margin-top:12px;padding:15px;
+ border-left:3px solid var(--primary);
+ background:var(--primary-light);border-radius:0 7px 7px 0;
+}
+.further-explanation.show{display:block}
+.question-actions{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:12px;flex-wrap:wrap;margin-top:23px;padding-top:18px;
+ border-top:1px solid var(--border);
+}
+.question-side{display:grid;gap:14px}
+.side-card{padding:21px}
+.side-card h3{margin-bottom:15px}
+.side-number{font-size:29px;font-weight:800;margin:10px 0}
+.progress-track{height:6px;background:var(--border);border-radius:9px;overflow:hidden}
+.progress-fill{height:100%;background:var(--primary);width:0%}
+.navigator{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.navigator button{
+ padding:10px 4px;border:1px solid var(--border);
+ background:var(--surface);color:var(--text);border-radius:6px;font-size:12px;
+}
+.navigator button.current{border:2px solid var(--primary);color:var(--primary)}
+.navigator button.done{background:var(--green-bg);border-color:var(--green)}
+.back-link{
+ border:0;background:transparent;color:var(--primary);
+ font-size:13px;font-weight:700;padding:0;
+}
+.coming-card{
+ padding:55px 25px;text-align:center;max-width:700px;margin:30px auto;
+}
+.coming-icon{
+ width:60px;height:60px;border-radius:15px;
+ background:var(--primary-light);color:var(--primary);
+ display:grid;place-items:center;font-size:26px;margin:0 auto 20px;
+}
+.login-screen{
+ min-height:100vh;display:grid;place-items:center;padding:20px;
+}
+.login-card{
+ width:min(420px,100%);padding:35px;
+ background:var(--surface);border:1px solid var(--border);border-radius:13px;
+}
+.login-card input{
+ width:100%;padding:13px;border:1px solid var(--border);
+ border-radius:7px;background:var(--bg);color:var(--text);margin:9px 0 17px;
+}
+.login-card button{width:100%}
+.mobile-menu{display:none}
+.empty{padding:30px;text-align:center;color:var(--muted);font-size:13px}
+@media(max-width:1050px){
+ .main{padding:25px 23px}
+ .question-layout{grid-template-columns:minmax(0,1.6fr) minmax(230px,.8fr)}
+ .stat-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
  .sidebar{transform:translateX(-100%);transition:.2s}
  .sidebar.open{transform:translateX(0)}
- .main{margin:0;width:100%;padding:18px 13px 45px}
- .bank-topics,.topic-grid{grid-template-columns:1fr}
- .bank-workspace{grid-template-columns:1fr}
- .bank-side{grid-template-columns:1fr 1fr}
- .bank-question-card{padding:18px}
- .bank-question-text{font-size:18px}
- .bank-toolbar{grid-template-columns:1fr}
- .bank-toolbar input{grid-column:auto}
- .exam-header{padding:0 12px;height:60px}
- .exam-body{padding:22px 15px 115px}
- .exam-question-text{font-size:18px;margin:22px 0}
- .exam-footer{padding:11px}
- .exam-footer .muted{display:none}
- .navigator-grid{grid-template-columns:repeat(5,1fr)}
- .exam-setup{padding:22px;margin:15px}
- .mode-grid{grid-template-columns:1fr}
+ .main{margin-left:0;width:100%;padding:20px 14px 50px}
+ .mobile-menu{display:block}
+ .topic-grid{grid-template-columns:1fr}
+ .question-layout{grid-template-columns:1fr}
+ .question-side{grid-template-columns:1fr 1fr}
+ .question-main{padding:18px}
+ .question-text{font-size:18px}
+ .level-grid{grid-template-columns:1fr}
+ .bank-header{flex-direction:column}
+ .stat-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:430px){
+ .question-side{grid-template-columns:1fr}
+ .stat-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
+<!-- LOGIN -->
 <div class="login-screen" id="loginScreen">
- <div class="login-box">
-  <div class="logo"><span class="logo-icon">P</span> Prepify</div>
-  <p class="muted">Your personal SAT preparation platform.</p>
-  <h1 style="font-size:26px">Welcome back!</h1>
+ <div class="login-card">
+  <div class="brand" style="padding:0 0 25px">
+   <span class="brand-icon">S</span>SATboost
+  </div>
+  <div class="eyebrow">YOUR SAT PREPARATION SPACE</div>
+  <h1 style="font-size:25px">Welcome back</h1>
+  <p class="muted">Sign in to continue your SAT preparation.</p>
   <form id="loginForm">
-   <label>Email address</label>
+   <label class="muted">Email address</label>
    <input type="email" id="emailInput" placeholder="you@example.com" required>
-   <button class="primary">Continue with email →</button>
+   <button class="btn btn-primary">Continue →</button>
   </form>
-  <p class="muted">Prototype login. Real email verification requires a backend.</p>
+  <p class="muted" style="font-size:11px">This is currently a browser-based prototype. Email verification is not enabled yet.</p>
  </div>
 </div>
 
-<div class="app" id="app" style="display:none">
+<!-- APPLICATION -->
+<div class="app" id="app">
  <aside class="sidebar" id="sidebar">
-  <div class="logo"><span class="logo-icon">P</span> Prepify</div>
-  <div class="nav-label">STUDY</div>
-  <button class="nav-btn active" data-page="dashboard">▦ Dashboard</button>
-  <button class="nav-btn" data-page="bank">▤ Question Bank</button>
-  <button class="nav-btn" data-page="practice">◷ Practice Test</button>
-  <button class="nav-btn" data-page="mistakes">↻ My Mistakes</button>
-  <button class="nav-btn" data-page="data">▥ My Data</button>
-  <button class="nav-btn" data-page="materials">▧ Study Materials</button>
-  <div class="nav-label">READING & WRITING</div>
-  <button class="nav-btn topic-link" data-topic="Boundaries">A Boundaries</button>
-  <button class="nav-btn topic-link" data-topic="Form, Structure & Sense">A Form, Structure & Sense</button>
-  <button class="nav-btn topic-link" data-topic="Transitions">A Transitions</button>
-  <button class="nav-btn topic-link" data-topic="Rhetorical Synthesis">A Rhetorical Synthesis</button>
+  <div class="brand">
+   <span class="brand-icon">S</span>SATboost
+  </div>
+
+  <div class="nav-heading">STUDY</div>
+  <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+  <button class="nav-btn" data-page="bank"><span class="nav-icon">▤</span>Question Bank</button>
+
+  <div class="nav-heading">SUBJECTS</div>
+  <button class="nav-btn" data-page="math"><span class="nav-icon">∑</span>Math</button>
+  <button class="nav-btn" data-page="reading"><span class="nav-icon">▤</span>Reading</button>
+  <button class="nav-btn" data-page="writing"><span class="nav-icon">✎</span>Writing</button>
+
+  <div class="nav-heading">YOUR PROGRESS</div>
+  <button class="nav-btn" data-page="mistakes"><span class="nav-icon">↻</span>My Mistakes</button>
+  <button class="nav-btn" data-page="saved"><span class="nav-icon">☆</span>Saved Questions</button>
+  <button class="nav-btn" data-page="data"><span class="nav-icon">▥</span>My Data</button>
+  <button class="nav-btn" data-page="materials"><span class="nav-icon">▧</span>Study Materials</button>
+
   <div class="sidebar-bottom">
-   <button class="nav-btn" id="themeBtn">◐ Toggle theme</button>
-   <button class="nav-btn" id="logoutBtn">⇥ Log out</button>
-   <div class="profile"><b id="profileEmail">Student</b><small>Prepify student</small></div>
+   <button class="nav-btn" id="themeBtn"><span class="nav-icon">◐</span>Toggle theme</button>
+   <button class="nav-btn" id="logoutBtn"><span class="nav-icon">⇥</span>Log out</button>
+   <div class="profile">
+    <div class="avatar" id="avatar">S</div>
+    <div>
+     <div class="profile-email" id="profileEmail">Student</div>
+     <div class="profile-role">SATboost student</div>
+    </div>
+   </div>
   </div>
  </aside>
 
  <main class="main">
-  <div class="topbar">
-   <div><div class="eyebrow">YOUR STUDY SPACE</div><h1 id="pageTitle">Dashboard</h1></div>
-   <button class="icon-btn" id="mobileMenu">☰</button>
-  </div>
+  <header class="topbar">
+   <div class="topbar-left">
+    <button class="btn mobile-menu" id="mobileMenu">☰</button>
+    <div>
+     <div class="eyebrow" id="pageEyebrow">YOUR STUDY SPACE</div>
+     <h1 id="pageTitle">Dashboard</h1>
+    </div>
+   </div>
+   <div class="btn-row">
+    <button class="btn" id="fontDown">A−</button>
+    <button class="btn" id="fontUp">A+</button>
+   </div>
+  </header>
 
+  <!-- DASHBOARD -->
   <section class="page active" id="page-dashboard">
-   <div class="card welcome">
-    <div class="eyebrow" style="color:#e3e0ff">YOUR PERSONAL SAT WORKSPACE</div>
-    <h2 style="font-size:27px">Make every practice count.</h2>
-    <p>Improve your SAT skills, practice by topic, and track your progress.</p>
-    <button class="primary" onclick="showPage('bank')">Open Question Bank →</button>
+   <div class="welcome">
+    <div class="eyebrow">WELCOME TO SATBOOST</div>
+    <h2 style="font-size:27px">Prepare smarter. Achieve more.</h2>
+    <p>Your SAT preparation workspace. Practice by skill, understand your mistakes, and follow your progress.</p>
+    <button class="btn btn-primary" onclick="showPage('bank')">Explore Question Bank →</button>
    </div>
-   <div class="grid stats">
-    <div class="card"><div class="stat-label">Questions answered</div><div class="stat-value" id="statAnswered">0</div></div>
-    <div class="card"><div class="stat-label">Accuracy</div><div class="stat-value" id="statAccuracy">—</div></div>
-    <div class="card"><div class="stat-label">Saved questions</div><div class="stat-value" id="statSaved">0</div></div>
-    <div class="card"><div class="stat-label">Mistakes</div><div class="stat-value" id="statMistakes">0</div></div>
+
+   <div class="stat-grid">
+    <div class="card stat-card"><div class="stat-label">Questions answered</div><div class="stat-value" id="totalAnswered">0</div></div>
+    <div class="card stat-card"><div class="stat-label">Correct answers</div><div class="stat-value" id="totalCorrect">0</div></div>
+    <div class="card stat-card"><div class="stat-label">Accuracy</div><div class="stat-value" id="accuracy">—</div></div>
+    <div class="card stat-card"><div class="stat-label">Saved questions</div><div class="stat-value" id="savedTotal">0</div></div>
    </div>
-   <div class="grid dashboard-grid">
-    <div class="card"><h2>Your progress</h2><div class="muted">Overall question completion</div><div class="progress"><span id="overallProgress" style="width:0%"></span></div><div class="muted" id="overallText">0 of 8 questions answered</div></div>
-    <div class="card"><h2>Quick access</h2><div class="list">
-     <div class="list-item"><b>Question Bank</b><button class="secondary" onclick="showPage('bank')">Open</button></div>
-     <div class="list-item"><b>Practice Test</b><button class="secondary" onclick="showPage('practice')">Open</button></div>
-    </div></div>
+
+   <div class="section-heading"><h2>Question Bank</h2><span class="muted">Choose a subject to begin</span></div>
+   <div class="topic-grid">
+    <div class="card topic-card">
+     <div class="topic-card-top"><h2>Math</h2><span class="tag">COMING SOON</span></div>
+     <p>Algebra, Advanced Math, Problem-Solving and Data Analysis, Geometry and Trigonometry.</p>
+     <div class="topic-card-footer"><span class="muted">Question bank in progress</span><button class="btn" onclick="showPage('math')">Explore →</button></div>
+    </div>
+    <div class="card topic-card">
+     <div class="topic-card-top"><h2>Reading</h2><span class="tag">COMING SOON</span></div>
+     <p>Information and Ideas, Craft and Structure, and other reading skills.</p>
+     <div class="topic-card-footer"><span class="muted">Question bank in progress</span><button class="btn" onclick="showPage('reading')">Explore →</button></div>
+    </div>
+    <div class="card topic-card">
+     <div class="topic-card-top"><h2>Writing</h2><span class="tag">AVAILABLE</span></div>
+     <p>Practice the four Writing skill categories with Medium and Hard questions.</p>
+     <div class="topic-card-footer"><span class="muted" id="writingCountHome">8 sample questions</span><button class="btn btn-primary" onclick="showPage('bank')">Start →</button></div>
+    </div>
    </div>
-   <div style="margin:25px 0 13px"><h2>Reading & Writing skills</h2></div>
-   <div class="grid topic-grid" id="dashboardTopics"></div>
   </section>
 
+  <!-- QUESTION BANK -->
   <section class="page" id="page-bank">
-   <div class="card bank-intro">
-    <div class="eyebrow">READING & WRITING</div>
-    <h2>Question Bank</h2>
-    <p class="muted">Choose a skill first. Questions will not appear until you start a practice session.</p>
-   </div>
-   <div class="bank-toolbar">
-    <input id="bankSearch" placeholder="Search questions or skills...">
-    <select id="bankStatus">
-     <option value="All">All questions</option>
-     <option value="Unanswered">Not answered</option>
-     <option value="Correct">Correct</option>
-     <option value="Wrong">Incorrect</option>
-     <option value="Saved">Saved</option>
-    </select>
-   </div>
-   <div class="bank-topics" id="bankTopics"></div>
-
-   <div id="bankResults" style="display:none">
-    <div class="page-heading" style="margin:20px 0">
-     <div><div class="eyebrow">SELECTED SKILL</div><h2 id="selectedTopicTitle"></h2><p class="muted" id="selectedTopicCount"></p></div>
-     <button class="secondary" onclick="backToTopics()">← All skills</button>
+   <div id="bankHome">
+    <div class="bank-header">
+     <div>
+      <div class="eyebrow">SAT QUESTION BANK</div>
+      <h2 style="font-size:25px">Choose your section</h2>
+      <p>Select a skill to practice. Choose your difficulty level on the next screen.</p>
+     </div>
+     <span class="tag">WRITING</span>
     </div>
-    <div class="bank-workspace">
-     <div class="card bank-question-card">
-      <div class="bank-question-head">
-       <div><span class="tag" id="bankTopicTag"></span> <span class="muted" id="bankDifficulty"></span></div>
-       <button class="secondary" id="bankSaveBtn">☆ Save</button>
+
+    <div class="bank-toolbar">
+     <input class="search-box" id="topicSearch" placeholder="Search skills...">
+     <span class="muted" id="totalBankCount">8 questions available</span>
+    </div>
+
+    <div class="topic-grid" id="topicCards"></div>
+   </div>
+
+   <!-- LEVEL SELECTION -->
+   <div class="topic-screen" id="levelScreen">
+    <button class="back-link" onclick="backToBank()">← Back to all sections</button>
+    <div class="section-heading">
+     <div>
+      <div class="eyebrow">WRITING QUESTION BANK</div>
+      <h2 id="levelTopicTitle">Boundaries</h2>
+      <p class="muted">Choose the difficulty level you want to practice.</p>
+     </div>
+     <span class="tag" id="levelTotal">2 QUESTIONS</span>
+    </div>
+
+    <div class="level-panel card">
+     <h2>Select difficulty</h2>
+     <p class="muted">Each level has its own question set and progress.</p>
+     <div class="level-grid">
+      <button class="level-card" onclick="startTopic('Medium')">
+       <strong>Medium</strong>
+       <span>Build your understanding and strengthen your skills.</span>
+       <span class="level-count" id="mediumCount">2 questions →</span>
+      </button>
+      <button class="level-card" onclick="startTopic('Hard')">
+       <strong>Hard</strong>
+       <span>Challenge yourself with more demanding questions.</span>
+       <span class="level-count" id="hardCount">2 questions →</span>
+      </button>
+     </div>
+    </div>
+   </div>
+
+   <!-- QUESTION VIEW -->
+   <div class="topic-screen" id="questionScreen">
+    <div class="bank-header">
+     <div>
+      <button class="back-link" onclick="backToLevels()">← Back to difficulty levels</button>
+      <div class="eyebrow" style="margin-top:15px">QUESTION BANK / <span id="crumbTopic">BOUNDARIES</span></div>
+      <h2 id="questionPageTitle">Boundaries — Medium</h2>
+      <p id="questionPageSubtitle">Practice questions</p>
+     </div>
+     <span class="tag" id="difficultyTag">MEDIUM</span>
+    </div>
+
+    <div class="question-layout">
+     <div class="card question-main">
+      <div class="question-top">
+       <div class="question-meta">
+        <span class="tag" id="questionTopicTag">Boundaries</span>
+        <span class="muted" id="questionDifficulty">Medium</span>
+       </div>
+       <button class="btn" id="saveQuestionBtn">☆ Save</button>
       </div>
-      <div class="eyebrow" id="bankQuestionNumber">QUESTION 1 OF 1</div>
-      <div class="bank-question-text" id="bankQuestionText"></div>
-      <div class="bank-options" id="bankOptions"></div>
-      <div id="bankFeedback"></div>
-      <div class="bank-controls">
-       <button class="secondary" id="bankPrev">← Previous</button>
-       <button class="primary" id="bankCheck">Check Answer</button>
-       <button class="primary" id="bankNext">Next →</button>
+
+      <div class="question-number" id="questionNumber" style="margin-top:24px">QUESTION 1 OF 2</div>
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="answerOptions"></div>
+
+      <div class="answer-feedback" id="answerFeedback"></div>
+
+      <div class="explanation" id="explanationBox">
+       <h3>Explanation</h3>
+       <p id="explanationText"></p>
+       <button class="btn btn-light" id="furtherBtn" onclick="toggleFurther()">Further Explanation ↓</button>
+       <div class="further-explanation" id="furtherBox">
+        <h3>Further Explanation</h3>
+        <p id="furtherText"></p>
+       </div>
+      </div>
+
+      <div class="question-actions">
+       <button class="btn" id="previousQuestionBtn" onclick="previousQuestion()">← Previous</button>
+       <div class="btn-row">
+        <button class="btn btn-primary" id="checkAnswerBtn" onclick="checkAnswer()">Check Answer</button>
+        <button class="btn btn-primary" id="nextQuestionBtn" onclick="nextQuestion()" style="display:none">Next →</button>
+       </div>
       </div>
      </div>
-     <div class="bank-side">
-      <div class="card">
-       <h2>Question progress</h2>
-       <div class="bank-side-number" id="bankProgressNumber">0/0</div>
-       <div class="progress"><span id="bankProgressBar" style="width:0%"></span></div>
-       <p class="muted">Questions you have answered.</p>
+
+     <div class="question-side">
+      <div class="card side-card">
+       <h3>Question progress</h3>
+       <div class="side-number" id="progressNumber">0/2</div>
+       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+       <p class="muted" id="progressCaption">Questions you have answered.</p>
       </div>
-      <div class="card">
-       <h2>Question navigator</h2>
-       <p class="muted">Select a question number.</p>
-       <div class="bank-navigation" id="bankNavigator"></div>
+
+      <div class="card side-card">
+       <h3>Question navigator</h3>
+       <div class="navigator" id="questionNavigator"></div>
+       <p class="muted" style="margin-bottom:0">Green means answered.</p>
       </div>
-      <div class="card">
-       <h2>Study tip</h2>
-       <p class="muted">Read the whole sentence carefully before choosing your answer. Review the explanation after checking.</p>
+
+      <div class="card side-card">
+       <h3>Study tip</h3>
+       <p class="muted">Read the entire sentence carefully. Think about the relationship between its ideas before choosing an answer.</p>
       </div>
      </div>
     </div>
    </div>
   </section>
 
-  <section class="page" id="page-practice">
-   <div class="card">
-    <div class="eyebrow">EXAM SIMULATION</div>
-    <h2>Practice Test</h2>
-    <p class="muted">Start a full-screen SAT-style practice session. Choose a timer or untimed mode before beginning.</p>
-    <div class="grid stats" style="grid-template-columns:repeat(3,1fr);margin:22px 0">
-     <div class="card"><div class="stat-label">Sample questions</div><div class="stat-value">8</div></div>
-     <div class="card"><div class="stat-label">Sections</div><div class="stat-value">4</div></div>
-     <div class="card"><div class="stat-label">Display</div><div class="stat-value" style="font-size:20px">Full screen</div></div>
-    </div>
-    <button class="primary" onclick="launchExam('all')">Set up full practice test →</button>
+  <!-- COMING SOON PAGES -->
+  <section class="page" id="page-math">
+   <div class="card coming-card">
+    <div class="coming-icon">∑</div>
+    <div class="eyebrow">SAT MATH</div>
+    <h2>Math Question Bank</h2>
+    <p class="muted">Coming Soon. We are preparing the Math question bank.</p>
+    <span class="tag">COMING SOON</span>
    </div>
   </section>
 
+  <section class="page" id="page-reading">
+   <div class="card coming-card">
+    <div class="coming-icon">▤</div>
+    <div class="eyebrow">SAT READING</div>
+    <h2>Reading Question Bank</h2>
+    <p class="muted">Coming Soon. We are preparing the Reading question bank.</p>
+    <span class="tag">COMING SOON</span>
+   </div>
+  </section>
+
+  <section class="page" id="page-writing">
+   <div class="card coming-card">
+    <div class="coming-icon">✎</div>
+    <div class="eyebrow">SAT WRITING</div>
+    <h2>Writing Question Bank</h2>
+    <p class="muted">Practice Writing questions by skill and difficulty.</p>
+    <button class="btn btn-primary" onclick="showPage('bank')">Open Writing Question Bank →</button>
+   </div>
+  </section>
+
+  <!-- MISTAKES -->
   <section class="page" id="page-mistakes">
-   <div class="card"><h2>My Mistakes</h2><p class="muted">Review your incorrect answers.</p><div id="mistakesList"></div></div>
+   <div class="card" style="padding:25px">
+    <h2>My Mistakes</h2>
+    <p class="muted">Questions you answered incorrectly.</p>
+    <div id="mistakesList"></div>
+   </div>
   </section>
+
+  <!-- SAVED -->
+  <section class="page" id="page-saved">
+   <div class="card" style="padding:25px">
+    <h2>Saved Questions</h2>
+    <p class="muted">Questions you have bookmarked for later.</p>
+    <div id="savedList"></div>
+   </div>
+  </section>
+
+  <!-- DATA -->
   <section class="page" id="page-data">
-   <div class="card"><h2>My Data</h2><div class="grid stats" style="margin-top:20px">
-    <div><div class="stat-label">Answered</div><div class="stat-value" id="dataAnswered">0</div></div>
-    <div><div class="stat-label">Correct</div><div class="stat-value" id="dataCorrect">0</div></div>
-    <div><div class="stat-label">Incorrect</div><div class="stat-value" id="dataWrong">0</div></div>
-    <div><div class="stat-label">Accuracy</div><div class="stat-value" id="dataAccuracy">—</div></div>
-   </div><div id="topicStats"></div></div>
+   <div class="card" style="padding:25px">
+    <h2>My Data</h2>
+    <p class="muted">Your question practice statistics.</p>
+    <div class="stat-grid">
+     <div><div class="stat-label">Answered</div><div class="stat-value" id="dataAnswered">0</div></div>
+     <div><div class="stat-label">Correct</div><div class="stat-value" id="dataCorrect">0</div></div>
+     <div><div class="stat-label">Incorrect</div><div class="stat-value" id="dataWrong">0</div></div>
+     <div><div class="stat-label">Accuracy</div><div class="stat-value" id="dataAccuracy">—</div></div>
+    </div>
+    <div id="dataTopics"></div>
+   </div>
   </section>
+
+  <!-- MATERIALS -->
   <section class="page" id="page-materials">
-   <div class="card"><h2>Study Materials</h2><div class="list">
-    <div class="list-item"><div><b>College Board SAT</b><p class="muted">Official SAT information</p></div><a href="https://satsuite.collegeboard.org/" target="_blank">Open ↗</a></div>
-    <div class="list-item"><div><b>Bluebook</b><p class="muted">Official testing application</p></div><a href="https://bluebook.collegeboard.org/" target="_blank">Open ↗</a></div>
-    <div class="list-item"><div><b>Khan Academy</b><p class="muted">Free SAT preparation</p></div><a href="https://www.khanacademy.org/test-prep/sat" target="_blank">Open ↗</a></div>
-    <div class="list-item"><div><b>College Board Question Bank</b><p class="muted">Official practice questions</p></div><a href="https://satsuitequestionbank.collegeboard.org/" target="_blank">Open ↗</a></div>
-   </div></div>
+   <div class="card" style="padding:25px">
+    <h2>Study Materials</h2>
+    <div class="topic-grid" style="margin-top:20px">
+     <div class="card topic-card"><h3>College Board</h3><p>Official SAT information and resources.</p><a href="https://satsuite.collegeboard.org/" target="_blank">Visit website →</a></div>
+     <div class="card topic-card"><h3>Bluebook</h3><p>Official digital testing application.</p><a href="https://bluebook.collegeboard.org/" target="_blank">Visit website →</a></div>
+     <div class="card topic-card"><h3>Khan Academy</h3><p>Free SAT preparation resources.</p><a href="https://www.khanacademy.org/test-prep/sat" target="_blank">Visit website →</a></div>
+     <div class="card topic-card"><h3>Official Question Bank</h3><p>College Board practice questions.</p><a href="https://satsuitequestionbank.collegeboard.org/" target="_blank">Visit website →</a></div>
+    </div>
+   </div>
   </section>
  </main>
 </div>
 
-<div class="exam" id="exam">
- <header class="exam-header">
-  <div class="exam-logo"><span class="logo-icon">P</span> Prepify <span class="muted">| Exam</span></div>
-  <div class="exam-header-right">
-   <span class="muted" id="examModeLabel">TIMED</span>
-   <div class="clock" id="clock">32:00</div>
-   <button class="icon-btn" onclick="toggleFullscreen()">⛶</button>
-   <button class="icon-btn" onclick="leaveExam()">✕</button>
-  </div>
- </header>
- <div class="exam-body">
-  <div id="examSetup">
-   <div class="exam-setup">
-    <div class="eyebrow">PREPIFY TESTING ENVIRONMENT</div>
-    <h1>Set up your practice</h1>
-    <p class="muted">Choose your testing mode. Questions will appear only after you press Start Exam.</p>
-    <h3 style="margin-top:25px">Select mode</h3>
-    <div class="mode-grid">
-     <div class="mode-option active" id="timedOption" onclick="setMode('timed')"><b>◷ Timed</b><p>Practice under time pressure with a countdown timer.</p></div>
-     <div class="mode-option" id="untimedOption" onclick="setMode('untimed')"><b>∞ Untimed</b><p>Take as much time as you need. No countdown.</p></div>
-    </div>
-    <div id="durationArea"><label class="muted">Time limit</label><select id="duration"><option value="10">10 minutes</option><option value="20">20 minutes</option><option value="32" selected>32 minutes</option><option value="35">35 minutes</option></select></div>
-    <div class="list-item" style="margin:15px 0">
-     <div><b id="examScopeTitle">All Reading & Writing skills</b><p class="muted" id="examScopeDesc">8 sample questions</p></div>
-     <span class="tag" id="examCount">8 QUESTIONS</span>
-    </div>
-    <button class="primary" style="width:100%;padding:15px" onclick="startExam()">Start Exam →</button>
-   </div>
-  </div>
-  <div id="examWork" style="display:none">
-   <div class="exam-headline">
-    <span class="exam-question-label" id="examQuestionNumber">QUESTION 1 OF 8</span>
-    <button class="secondary" id="flagBtn" onclick="toggleFlag()">⚑ Mark for review</button>
-   </div>
-   <div class="exam-progress"><span id="examProgressBar" style="width:12.5%"></span></div>
-   <div class="muted" id="examTopic"></div>
-   <div class="exam-question-text" id="examQuestionText"></div>
-   <div class="exam-choices" id="examChoices"></div>
-   <div class="exam-navigator" id="examNavigator"><b>Question navigator</b><p class="muted">Choose a question number to move to it.</p><div class="navigator-grid" id="navigatorGrid"></div></div>
-  </div>
-  <div id="examResults" style="display:none"></div>
- </div>
- <footer class="exam-footer" id="examFooter" style="display:none">
-  <div class="footer-group"><button class="secondary" onclick="toggleNavigator()">☷ Questions</button><span class="muted" id="answeredCounter">0 of 8 answered</span></div>
-  <div class="footer-group">
-   <button class="secondary" id="prevBtn" onclick="examPrevious()">← Back</button>
-   <button class="primary" id="nextBtn" onclick="examNext()">Next →</button>
-   <button class="primary" id="submitBtn" onclick="confirmSubmit()" style="display:none">Submit Test</button>
-  </div>
- </footer>
-</div>
-
 <script>
-const topics=["Boundaries","Form, Structure & Sense","Transitions","Rhetorical Synthesis"];
-const questions=[
-{id:1,topic:topics[0],difficulty:"Medium",text:"The research team collected data from several coastal regions ____ the results revealed a clear pattern in water temperature.",options:["regions, and the","regions; the","regions the","regions, the"],answer:1,explanation:"The sentence contains two independent clauses. A semicolon can join two closely related independent clauses."},
-{id:2,topic:topics[0],difficulty:"Medium",text:"Although the experiment was initially considered unsuccessful ____ the researchers later discovered an important result.",options:["unsuccessful,","unsuccessful;","unsuccessful","unsuccessful:"],answer:0,explanation:"An introductory dependent clause beginning with “Although” is followed by a comma."},
-{id:3,topic:topics[1],difficulty:"Medium",text:"The collection of rare plants ____ carefully maintained by the university's biology department.",options:["are","were","is","have been"],answer:2,explanation:"The subject “collection” is singular, so the singular verb “is” is correct."},
-{id:4,topic:topics[1],difficulty:"Hard",text:"By the time the final report was published, the scientists ____ the data for nearly three years.",options:["analyze","had been analyzing","will analyze","are analyzing"],answer:1,explanation:"The past perfect progressive describes an activity continuing before another past event."},
-{id:5,topic:topics[2],difficulty:"Medium",text:"The first design was inexpensive to produce. ____, it required frequent repairs, making it costly over time.",options:["For example","Nevertheless","Similarly","In addition"],answer:1,explanation:"“Nevertheless” introduces a contrast between the low initial cost and later repair expenses."},
-{id:6,topic:topics[2],difficulty:"Hard",text:"Several studies have examined the effects of urban green spaces on air quality. ____, recent research has also explored their influence on residents' mental well-being.",options:["In contrast","As a result","Furthermore","Instead"],answer:2,explanation:"“Furthermore” adds another related point."},
-{id:7,topic:topics[3],difficulty:"Medium",text:"A student is writing about a museum exhibition. The student wants to emphasize that the exhibition includes works from different historical periods.\n\nNotes:\n• The exhibition opened in 2024.\n• It contains 60 paintings.\n• The paintings were created between 1600 and 1950.\n• The exhibition is located in the city art museum.\n\nWhich choice most effectively uses the notes to achieve the student's goal?",options:["The city art museum opened an exhibition in 2024.","The exhibition features 60 paintings created across a period spanning from 1600 to 1950.","The museum is located in the city center.","Sixty paintings are included in the exhibition."],answer:1,explanation:"This choice emphasizes the different historical periods represented by the paintings."},
-{id:8,topic:topics[3],difficulty:"Hard",text:"A student is writing about a scientific discovery. The student wants to compare the two methods used in the study.\n\nNotes:\n• Method A took 12 hours to complete.\n• Method B took 4 hours to complete.\n• Both methods produced results with similar accuracy.\n\nWhich choice best achieves the student's goal?",options:["The study used two methods to collect scientific data.","Method A and Method B both produced accurate results.","Although Method A took longer, both methods achieved similar levels of accuracy.","Method B was used in a scientific study."],answer:2,explanation:"This choice compares the time required by each method while highlighting their similar accuracy."}
+/* ==========================================
+   SATBOOST QUESTION BANK
+   ========================================== */
+
+const topics = [
+ "Boundaries",
+ "Form, Structure & Sense",
+ "Transitions",
+ "Rhetorical Synthesis"
 ];
 
+/*
+  These are original sample questions.
+  Medium and Hard currently use the same question set.
+  Later, each level can have its own question array.
+*/
+
+const questionBank = {
+ "Boundaries": [
+  {
+   id:"B1",
+   difficulty:"Medium",
+   text:"The research team collected data from several coastal regions ____ the results revealed a clear pattern in water temperature.",
+   options:[
+    "regions, and the",
+    "regions; the",
+    "regions the",
+    "regions, the"
+   ],
+   answer:1,
+   explanation:"The sentence contains two independent clauses. A semicolon can connect two closely related independent clauses.",
+   further:"The first independent clause is “The research team collected data from several coastal regions.” The second is “the results revealed a clear pattern in water temperature.” Both clauses can stand alone as complete sentences. A semicolon is therefore appropriate between them. A comma alone would create a comma splice."
+  },
+  {
+   id:"B2",
+   difficulty:"Medium",
+   text:"Although the experiment was initially considered unsuccessful ____ the researchers later discovered an important result.",
+   options:[
+    "unsuccessful,",
+    "unsuccessful;",
+    "unsuccessful",
+    "unsuccessful:"
+   ],
+   answer:0,
+   explanation:"An introductory dependent clause is followed by a comma.",
+   further:"The word “Although” introduces a dependent clause. This clause cannot stand alone as a complete sentence. When an introductory dependent clause comes before the main clause, a comma separates the two parts. A semicolon is not used here."
+  },
+  {
+   id:"B3",
+   difficulty:"Medium",
+   text:"The university's new research center ____ which opened last September, focuses on renewable energy.",
+   options:[
+    "building",
+    "building,",
+    "building;",
+    "building:"
+   ],
+   answer:1,
+   explanation:"The nonessential descriptive clause is set off with commas.",
+   further:"The phrase “which opened last September” adds extra information about the research center. The sentence remains grammatically complete without it. Nonessential information beginning with “which” is generally enclosed by commas."
+  }
+ ],
+ "Form, Structure & Sense": [
+  {
+   id:"F1",
+   difficulty:"Medium",
+   text:"The collection of rare plants ____ carefully maintained by the university's biology department.",
+   options:["are","were","is","have been"],
+   answer:2,
+   explanation:"The subject “collection” is singular, so it takes the singular verb “is.”",
+   further:"The main subject is “collection,” not “plants.” The phrase “of rare plants” describes the collection but does not change the subject's number. This is why “is” is correct."
+  },
+  {
+   id:"F2",
+   difficulty:"Medium",
+   text:"By the time the final report was published, the scientists ____ the data for nearly three years.",
+   options:["analyze","had been analyzing","will analyze","are analyzing"],
+   answer:1,
+   explanation:"The past perfect progressive describes an activity that continued before another event in the past.",
+   further:"The report was published at a specific point in the past. The scientists' analysis had already been continuing for nearly three years before that point. The past perfect progressive form “had been analyzing” communicates this timeline."
+  }
+ ],
+ "Transitions": [
+  {
+   id:"T1",
+   difficulty:"Medium",
+   text:"The first design was inexpensive to produce. ____, it required frequent repairs, making it costly over time.",
+   options:["For example","Nevertheless","Similarly","In addition"],
+   answer:1,
+   explanation:"“Nevertheless” introduces a contrast between the low initial cost and later repair expenses.",
+   further:"The two sentences present contrasting information. The first says the design was inexpensive to produce, while the second explains that frequent repairs made it costly over time. “Nevertheless” signals that contrast."
+  },
+  {
+   id:"T2",
+   difficulty:"Medium",
+   text:"Several studies have examined the effects of urban green spaces on air quality. ____, recent research has also explored their influence on residents' mental well-being.",
+   options:["In contrast","As a result","Furthermore","Instead"],
+   answer:2,
+   explanation:"“Furthermore” adds another related point.",
+   further:"Both sentences discuss research into the benefits of urban green spaces. The second sentence adds another area of research rather than presenting a contrast or a consequence. “Furthermore” is therefore the best transition."
+  }
+ ],
+ "Rhetorical Synthesis": [
+  {
+   id:"R1",
+   difficulty:"Medium",
+   text:"A student is writing about a museum exhibition. The student wants to emphasize that the exhibition includes works from different historical periods.\n\nNotes:\n• The exhibition opened in 2024.\n• It contains 60 paintings.\n• The paintings were created between 1600 and 1950.\n• The exhibition is located in the city art museum.\n\nWhich choice most effectively uses the notes to achieve the student's goal?",
+   options:[
+    "The city art museum opened an exhibition in 2024.",
+    "The exhibition features 60 paintings created across a period spanning from 1600 to 1950.",
+    "The museum is located in the city center.",
+    "Sixty paintings are included in the exhibition."
+   ],
+   answer:1,
+   explanation:"This choice emphasizes the different historical periods represented by the paintings.",
+   further:"The student's goal is specifically to emphasize the range of historical periods. Choice B includes the dates 1600 and 1950, directly communicating that range. The other choices mention facts from the notes but do not achieve the stated purpose."
+  },
+  {
+   id:"R2",
+   difficulty:"Medium",
+   text:"A student is writing about a scientific discovery. The student wants to compare the two methods used in the study.\n\nNotes:\n• Method A took 12 hours to complete.\n• Method B took 4 hours to complete.\n• Both methods produced results with similar accuracy.\n\nWhich choice best achieves the student's goal?",
+   options:[
+    "The study used two methods to collect scientific data.",
+    "Method A and Method B both produced accurate results.",
+    "Although Method A took longer, both methods achieved similar levels of accuracy.",
+    "Method B was used in a scientific study."
+   ],
+   answer:2,
+   explanation:"This choice compares the time required by each method while highlighting their similar accuracy.",
+   further:"The prompt asks for a comparison. Choice C includes both the difference in completion time and the similarity in accuracy. This directly combines the most relevant notes to accomplish the student's purpose."
+  }
+ ]
+};
+
+/* App state */
+let currentUser=localStorage.getItem("satboost_email")||"";
+let currentPage="dashboard";
+let currentTopic="";
+let currentLevel="Medium";
+let currentQuestions=[];
+let currentIndex=0;
+let selectedAnswer=null;
+let checked=false;
+let fontSize=21;
+
+let userAnswers=JSON.parse(localStorage.getItem("satboost_answers")||"{}");
+let savedQuestions=JSON.parse(localStorage.getItem("satboost_saved")||"[]");
+
 const $=id=>document.getElementById(id);
-let user=localStorage.getItem("prepify_email")||"";
-let answers=JSON.parse(localStorage.getItem("prepify_answers")||"{}");
-let saved=JSON.parse(localStorage.getItem("prepify_saved")||"[]");
-let selectedTopic="All",bankQuestions=[],bankIndex=0,bankSelection=null,bankChecked=false;
-let mode="timed",examQuestions=[],examAnswers={},flags=[],examIndex=0,seconds=0,timer=null,examRunning=false;
 
-function save(){
- localStorage.setItem("prepify_answers",JSON.stringify(answers));
- localStorage.setItem("prepify_saved",JSON.stringify(saved));
+function saveData(){
+ localStorage.setItem("satboost_answers",JSON.stringify(userAnswers));
+ localStorage.setItem("satboost_saved",JSON.stringify(savedQuestions));
 }
-function init(){
- if(!user){$("loginScreen").style.display="grid";$("app").style.display="none";return}
- $("loginScreen").style.display="none";$("app").style.display="flex";
- $("profileEmail").textContent=user;renderDashboard();
-}
-$("loginForm").onsubmit=e=>{
- e.preventDefault();user=$("emailInput").value.trim().toLowerCase();
- localStorage.setItem("prepify_email",user);init();
-};
-$("logoutBtn").onclick=()=>{
- localStorage.removeItem("prepify_email");user="";init();
-};
-$("themeBtn").onclick=()=>{
- document.body.classList.toggle("dark");
- localStorage.setItem("prepify_theme",document.body.classList.contains("dark")?"dark":"light");
-};
-if(localStorage.getItem("prepify_theme")==="dark")document.body.classList.add("dark");
-$("mobileMenu").onclick=()=>$("sidebar").classList.toggle("open");
 
-const pageNames={dashboard:"Dashboard",bank:"Question Bank",practice:"Practice Test",mistakes:"My Mistakes",data:"My Data",materials:"Study Materials"};
-function showPage(name){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- $("page-"+name).classList.add("active");
- document.querySelectorAll("[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===name));
- $("pageTitle").textContent=pageNames[name];$("sidebar").classList.remove("open");
- if(name==="bank")backToTopics();
- if(name==="dashboard")renderDashboard();
- if(name==="mistakes")renderMistakes();
- if(name==="data")renderData();
+function allQuestions(){
+ return topics.flatMap(topic=>
+  (questionBank[topic]||[]).map(q=>({...q,topic}))
+ );
 }
-document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
-document.querySelectorAll(".topic-link").forEach(b=>b.onclick=()=>{
- showPage("bank");selectTopic(b.dataset.topic);
+
+function questionsForLevel(topic,level){
+ return (questionBank[topic]||[]).map(q=>({...q,topic,difficulty:level}));
+}
+
+/* Login */
+function initialize(){
+ if(!currentUser){
+  $("loginScreen").style.display="grid";
+  $("app").style.display="none";
+  return;
+ }
+ $("loginScreen").style.display="none";
+ $("app").style.display="flex";
+ $("profileEmail").textContent=currentUser;
+ $("avatar").textContent=currentUser.charAt(0).toUpperCase();
+ renderAll();
+}
+
+$("loginForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ currentUser=$("emailInput").value.trim().toLowerCase();
+ localStorage.setItem("satboost_email",currentUser);
+ initialize();
 });
 
-function stats(){
- const list=Object.values(answers),correct=list.filter(a=>a.correct).length;
- return {total:list.length,correct,wrong:list.length-correct,accuracy:list.length?Math.round(correct/list.length*100):0};
+$("logoutBtn").onclick=()=>{
+ localStorage.removeItem("satboost_email");
+ currentUser="";
+ initialize();
+};
+
+/* Theme */
+if(localStorage.getItem("satboost_theme")==="dark"){
+ document.body.classList.add("dark");
 }
+$("themeBtn").onclick=()=>{
+ document.body.classList.toggle("dark");
+ localStorage.setItem(
+  "satboost_theme",
+  document.body.classList.contains("dark")?"dark":"light"
+ );
+};
+
+/* Font size */
+$("fontUp").onclick=()=>{
+ fontSize=Math.min(28,fontSize+1);
+ document.documentElement.style.setProperty("--question-font",fontSize+"px");
+ document.querySelectorAll(".question-text").forEach(el=>el.style.fontSize=fontSize+"px");
+};
+$("fontDown").onclick=()=>{
+ fontSize=Math.max(16,fontSize-1);
+ document.querySelectorAll(".question-text").forEach(el=>el.style.fontSize=fontSize+"px");
+};
+
+/* Navigation */
+const pageTitles={
+ dashboard:"Dashboard",
+ bank:"Question Bank",
+ math:"Math",
+ reading:"Reading",
+ writing:"Writing",
+ mistakes:"My Mistakes",
+ saved:"Saved Questions",
+ data:"My Data",
+ materials:"Study Materials"
+};
+
+function showPage(page){
+ currentPage=page;
+ document.querySelectorAll(".page").forEach(el=>el.classList.remove("active"));
+ $("page-"+page).classList.add("active");
+ $("pageTitle").textContent=pageTitles[page];
+ $("pageEyebrow").textContent=page==="bank"?"SAT QUESTION BANK":"YOUR STUDY SPACE";
+
+ document.querySelectorAll("[data-page]").forEach(btn=>{
+  btn.classList.toggle("active",btn.dataset.page===page);
+ });
+
+ $("sidebar").classList.remove("open");
+
+ if(page==="dashboard")renderDashboard();
+ if(page==="bank")backToBank();
+ if(page==="mistakes")renderMistakes();
+ if(page==="saved")renderSaved();
+ if(page==="data")renderData();
+}
+
+document.querySelectorAll("[data-page]").forEach(btn=>{
+ btn.addEventListener("click",()=>showPage(btn.dataset.page));
+});
+
+$("mobileMenu").onclick=()=>$("sidebar").classList.toggle("open");
+
+/* Dashboard */
+function getStats(){
+ const list=Object.values(userAnswers);
+ const correct=list.filter(x=>x.correct).length;
+ return {
+  answered:list.length,
+  correct,
+  wrong:list.length-correct,
+  accuracy:list.length?Math.round(correct/list.length*100):0
+ };
+}
+
 function renderDashboard(){
- const s=stats();
- $("statAnswered").textContent=s.total;$("statAccuracy").textContent=s.total?s.accuracy+"%":"—";
- $("statSaved").textContent=saved.length;$("statMistakes").textContent=s.wrong;
- $("overallProgress").style.width=Math.min(100,s.total/questions.length*100)+"%";
- $("overallText").textContent=s.total+" of "+questions.length+" questions answered";
- $("dashboardTopics").innerHTML=topics.map(t=>`
- <div class="card topic-card"><div><b>${t}</b><p>${questions.filter(q=>q.topic===t).length} sample questions</p></div>
- <button class="secondary" onclick="showPage('bank');selectTopic('${t}')">Open</button></div>`).join("");
+ const s=getStats();
+ $("totalAnswered").textContent=s.answered;
+ $("totalCorrect").textContent=s.correct;
+ $("accuracy").textContent=s.answered?s.accuracy+"%":"—";
+ $("savedTotal").textContent=savedQuestions.length;
+ $("writingCountHome").textContent=allQuestions().length+" sample questions";
 }
-function filterStatus(qs,status){
- if(status==="Unanswered")return qs.filter(q=>!answers[q.id]);
- if(status==="Correct")return qs.filter(q=>answers[q.id]?.correct);
- if(status==="Wrong")return qs.filter(q=>answers[q.id]&&!answers[q.id].correct);
- if(status==="Saved")return qs.filter(q=>saved.includes(q.id));
- return qs;
+
+/* Question Bank home */
+function backToBank(){
+ $("bankHome").style.display="block";
+ $("levelScreen").style.display="none";
+ $("questionScreen").style.display="none";
+ renderTopicCards();
 }
-function backToTopics(){
- selectedTopic="All";$("bankTopics").style.display="grid";$("bankResults").style.display="none";
- $("bankSearch").value="";$("bankStatus").value="All";renderTopicCards();
-}
+
 function renderTopicCards(){
- const search=$("bankSearch").value.toLowerCase(),status=$("bankStatus").value;
- const visible=topics.filter(t=>t.toLowerCase().includes(search));
- $("bankTopics").innerHTML=visible.map(t=>{
-  const qs=filterStatus(questions.filter(q=>q.topic===t),status);
-  return `<div class="card bank-topic">
-   <div class="eyebrow">READING & WRITING</div><h2>${t}</h2>
-   <div class="topic-description">Practice this skill with focused questions. Your progress is saved as you work.</div>
-   <div class="bank-topic-footer"><span class="muted">${qs.length} questions available</span><button class="primary" onclick="selectTopic('${t}')">Start Practice →</button></div>
-  </div>`;
- }).join("")||'<div class="empty">No skills found.</div>';
+ const search=$("topicSearch").value.toLowerCase();
+ const total=allQuestions().length;
+ $("totalBankCount").textContent=total+" sample questions available";
+
+ $("topicCards").innerHTML=topics
+ .filter(t=>t.toLowerCase().includes(search))
+ .map(topic=>{
+  const count=questionBank[topic].length;
+  return `
+   <div class="card topic-card">
+    <div class="topic-card-top">
+     <h2>${topic}</h2>
+     <span class="tag">WRITING</span>
+    </div>
+    <p>Practice ${topic} questions. Select your difficulty level to begin.</p>
+    <div class="topic-card-footer">
+     <span class="topic-count">${count} questions in each level</span>
+     <button class="btn btn-primary" onclick="openTopic('${topic}')">Open section →</button>
+    </div>
+   </div>
+  `;
+ }).join("")||'<div class="empty">No sections found.</div>';
 }
-function selectTopic(topic){
- selectedTopic=topic;
- bankQuestions=filterStatus(questions.filter(q=>q.topic===topic),$("bankStatus").value);
- bankIndex=0;bankSelection=null;bankChecked=false;
- $("bankTopics").style.display="none";$("bankResults").style.display="block";
- $("selectedTopicTitle").textContent=topic;
- $("selectedTopicCount").textContent=bankQuestions.length+" questions in this skill";
- renderBankQuestion();
+
+$("topicSearch").addEventListener("input",renderTopicCards);
+
+function openTopic(topic){
+ currentTopic=topic;
+ $("bankHome").style.display="none";
+ $("levelScreen").style.display="block";
+ $("questionScreen").style.display="none";
+ $("levelTopicTitle").textContent=topic;
+
+ const count=questionBank[topic].length;
+ $("levelTotal").textContent=count+" QUESTIONS";
+ $("mediumCount").textContent=count+" questions →";
+ $("hardCount").textContent=count+" questions →";
 }
-function renderBankQuestion(){
- if(!bankQuestions.length){
-  $("bankQuestionText").textContent="No questions match this filter.";
-  $("bankOptions").innerHTML="";$("bankFeedback").innerHTML="";return;
- }
- const q=bankQuestions[bankIndex];
- $("bankTopicTag").textContent=q.topic;$("bankDifficulty").textContent=q.difficulty;
- $("bankQuestionNumber").textContent="QUESTION "+(bankIndex+1)+" OF "+bankQuestions.length;
- $("bankQuestionText").textContent=q.text;
- $("bankSaveBtn").textContent=saved.includes(q.id)?"★ Saved":"☆ Save";
- $("bankSaveBtn").onclick=()=>toggleSave(q.id);
- const previous=answers[q.id];
- bankSelection=previous?previous.choice:null;
- bankChecked=!!previous;
- $("bankOptions").innerHTML=q.options.map((o,i)=>{
+
+function backToLevels(){
+ $("levelScreen").style.display="block";
+ $("questionScreen").style.display="none";
+}
+
+function startTopic(level){
+ currentLevel=level;
+ currentQuestions=questionsForLevel(currentTopic,level);
+ currentIndex=0;
+ selectedAnswer=null;
+ checked=false;
+
+ $("levelScreen").style.display="none";
+ $("questionScreen").style.display="block";
+ $("questionPageTitle").textContent=currentTopic+" — "+level;
+ $("questionPageSubtitle").textContent=currentQuestions.length+" questions · No time limit";
+ $("crumbTopic").textContent=currentTopic.toUpperCase();
+ $("difficultyTag").textContent=level.toUpperCase();
+
+ renderQuestion();
+}
+
+/* Question rendering */
+function currentQuestion(){
+ return currentQuestions[currentIndex];
+}
+
+function answerKey(q){
+ return q.id+"_"+currentLevel;
+}
+
+function renderQuestion(){
+ const q=currentQuestion();
+ if(!q)return;
+
+ const key=answerKey(q);
+ const previous=userAnswers[key];
+
+ selectedAnswer=previous?previous.choice:null;
+ checked=!!previous;
+
+ $("questionTopicTag").textContent=currentTopic;
+ $("questionDifficulty").textContent=currentLevel;
+ $("questionNumber").textContent="QUESTION "+(currentIndex+1)+" OF "+currentQuestions.length;
+ $("questionText").textContent=q.text;
+ $("questionText").style.fontSize=fontSize+"px";
+
+ $("saveQuestionBtn").textContent=
+  savedQuestions.includes(key)?"★ Saved":"☆ Save";
+
+ $("saveQuestionBtn").onclick=()=>toggleSave(key);
+
+ $("answerOptions").innerHTML=q.options.map((option,i)=>{
   let cls="";
-  if(bankChecked&&i===q.answer)cls="correct";
-  else if(bankChecked&&i===bankSelection&&i!==q.answer)cls="wrong";
-  else if(!bankChecked&&i===bankSelection)cls="selected";
-  return `<div class="bank-option ${cls}" onclick="selectBankAnswer(${i})">
-   <span class="option-letter">${"ABCD"[i]}</span><span>${o}</span></div>`;
+  if(checked&&i===q.answer)cls="correct";
+  else if(checked&&i===selectedAnswer&&i!==q.answer)cls="incorrect";
+  else if(!checked&&i===selectedAnswer)cls="selected";
+
+  return `
+   <div class="option ${cls}" onclick="chooseAnswer(${i})">
+    <span class="option-letter">${"ABCD"[i]}</span>
+    <span>${option}</span>
+   </div>
+  `;
  }).join("");
- $("bankFeedback").innerHTML=bankChecked?`
-  <div class="bank-feedback">
-   <b>${previous?.correct?"Correct answer!":"Review this answer"}</b>
-   <p>${q.explanation}</p>
-  </div>`:"";
- $("bankPrev").disabled=bankIndex===0;
- $("bankNext").textContent=bankIndex===bankQuestions.length-1?"Finish skill":"Next →";
- $("bankProgressNumber").textContent=bankQuestions.filter(x=>answers[x.id]).length+"/"+bankQuestions.length;
- $("bankProgressBar").style.width=(bankQuestions.filter(x=>answers[x.id]).length/Math.max(1,bankQuestions.length)*100)+"%";
- $("bankNavigator").innerHTML=bankQuestions.map((x,i)=>`
-  <button class="${i===bankIndex?"current ":""}${answers[x.id]?"answered":""}" onclick="goBankQuestion(${i})">${i+1}</button>`).join("");
-}
-function selectBankAnswer(i){
- if(bankChecked)return;
- bankSelection=i;
- $("bankOptions").querySelectorAll(".bank-option").forEach((el,n)=>el.classList.toggle("selected",n===i));
-}
-function checkBankAnswer(){
- if(bankSelection===null){alert("Please select an answer first.");return}
- const q=bankQuestions[bankIndex];
- answers[q.id]={choice:bankSelection,correct:bankSelection===q.answer};
- bankChecked=true;save();renderBankQuestion();renderDashboard();
-}
-function goBankQuestion(i){bankIndex=i;renderBankQuestion()}
-function bankPrevious(){if(bankIndex>0){bankIndex--;renderBankQuestion()}}
-function bankNext(){
- if(bankIndex<bankQuestions.length-1){bankIndex++;renderBankQuestion()}
- else{
-  alert("You have reached the end of this skill.");
-  backToTopics();renderDashboard();
+
+ $("answerFeedback").className="answer-feedback";
+ $("explanationBox").classList.remove("show");
+ $("furtherBox").classList.remove("show");
+
+ if(checked){
+  showExplanation(q,previous);
  }
+
+ $("checkAnswerBtn").style.display=checked?"none":"inline-block";
+ $("nextQuestionBtn").style.display=checked?"inline-block":"none";
+ $("previousQuestionBtn").disabled=currentIndex===0;
+
+ renderNavigator();
+ renderProgress();
 }
-$("bankCheck").onclick=checkBankAnswer;
-$("bankPrev").onclick=bankPrevious;
-$("bankNext").onclick=bankNext;
-$("bankSearch").oninput=()=>renderTopicCards();
-$("bankStatus").onchange=()=>{if(selectedTopic==="All")renderTopicCards();else selectTopic(selectedTopic)};
-function toggleSave(id){
- saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];save();
- if(selectedTopic!=="All")renderBankQuestion();
+
+function chooseAnswer(index){
+ if(checked)return;
+ selectedAnswer=index;
+ document.querySelectorAll(".option").forEach((el,i)=>{
+  el.classList.toggle("selected",i===index);
+ });
+}
+
+function checkAnswer(){
+ if(selectedAnswer===null){
+  alert("Please select an answer first.");
+  return;
+ }
+
+ const q=currentQuestion();
+ const key=answerKey(q);
+ const correct=selectedAnswer===q.answer;
+
+ userAnswers[key]={
+  choice:selectedAnswer,
+  correct:correct,
+  topic:currentTopic,
+  level:currentLevel,
+  questionId:q.id
+ };
+
+ saveData();
+ checked=true;
+ renderQuestion();
  renderDashboard();
 }
 
-/* Exam */
-function launchExam(scope){
- examQuestions=scope==="all"?[...questions]:questions.filter(q=>q.topic===scope);
- if(!examQuestions.length)return;
- $("exam").classList.add("active");
- $("examSetup").style.display="block";$("examWork").style.display="none";
- $("examResults").style.display="none";$("examFooter").style.display="none";
- $("examScopeTitle").textContent=scope==="all"?"All Reading & Writing skills":scope;
- $("examScopeDesc").textContent=examQuestions.length+" question(s) in this practice session";
- $("examCount").textContent=examQuestions.length+" QUESTIONS";
- mode="timed";setMode("timed");$("examNavigator").classList.remove("show");
- examRunning=false;
+function showExplanation(q,previous){
+ const correct=previous.correct;
+ $("answerFeedback").className="answer-feedback show "+(correct?"correct":"incorrect");
+ $("answerFeedback").innerHTML=correct
+  ?"<strong>✓ Correct!</strong> Your answer is correct."
+  :"<strong>✕ Incorrect.</strong> The correct answer is <b>"+ "ABCD"[q.answer] +"</b>.";
+
+ $("explanationBox").classList.add("show");
+ $("explanationText").textContent=q.explanation;
+ $("furtherText").textContent=q.further||q.explanation;
+ $("furtherBox").classList.remove("show");
+ $("furtherBtn").textContent="Further Explanation ↓";
 }
-function setMode(value){
- mode=value;
- $("timedOption").classList.toggle("active",value==="timed");
- $("untimedOption").classList.toggle("active",value==="untimed");
- $("durationArea").style.display=value==="timed"?"block":"none";
+
+function toggleFurther(){
+ const box=$("furtherBox");
+ const open=box.classList.toggle("show");
+ $("furtherBtn").textContent=open?"Hide Further Explanation ↑":"Further Explanation ↓";
 }
-function startExam(){
- examIndex=0;examAnswers={};flags=[];examRunning=true;
- seconds=Number($("duration").value)*60;
- $("examSetup").style.display="none";$("examWork").style.display="block";
- $("examResults").style.display="none";$("examFooter").style.display="flex";
- $("examModeLabel").textContent=mode==="timed"?"TIMED":"UNTIMED";
- if(mode==="timed"){
-  updateClock();clearInterval(timer);
-  timer=setInterval(()=>{seconds--;updateClock();if(seconds<=0){clearInterval(timer);finishExam(true)}},1000);
- }else{$("clock").textContent="∞";$("clock").classList.remove("warning")}
- renderExamQuestion();
- if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});
+
+function nextQuestion(){
+ if(currentIndex<currentQuestions.length-1){
+  currentIndex++;
+  renderQuestion();
+ }else{
+  const correct=currentQuestions.filter(q=>{
+   const a=userAnswers[answerKey(q)];
+   return a&&a.correct;
+  }).length;
+
+  alert(
+   "Section completed!\n\n"+
+   "Questions: "+currentQuestions.length+
+   "\nCorrect: "+correct+
+   "\nIncorrect: "+(currentQuestions.length-correct)
+  );
+
+  backToLevels();
+ }
 }
-function updateClock(){
- $("clock").textContent=String(Math.floor(seconds/60)).padStart(2,"0")+":"+String(seconds%60).padStart(2,"0");
- $("clock").classList.toggle("warning",seconds<=300);
+
+function previousQuestion(){
+ if(currentIndex>0){
+  currentIndex--;
+  renderQuestion();
+ }
 }
-function renderExamQuestion(){
- const q=examQuestions[examIndex];
- $("examQuestionNumber").textContent="QUESTION "+(examIndex+1)+" OF "+examQuestions.length;
- $("examProgressBar").style.width=(examIndex+1)/examQuestions.length*100+"%";
- $("examTopic").textContent=q.topic+" · "+q.difficulty;
- $("examQuestionText").textContent=q.text;
- $("examChoices").innerHTML=q.options.map((o,i)=>`
- <div class="choice ${examAnswers[q.id]===i?"selected":""}" onclick="chooseExamAnswer(${i})">
- <span class="choice-letter">${"ABCD"[i]}</span><span>${o}</span></div>`).join("");
- $("flagBtn").textContent=flags.includes(q.id)?"⚑ Marked for review":"⚑ Mark for review";
- $("prevBtn").disabled=examIndex===0;
- $("nextBtn").style.display=examIndex===examQuestions.length-1?"none":"inline-block";
- $("submitBtn").style.display=examIndex===examQuestions.length-1?"inline-block":"none";
- $("answeredCounter").textContent=Object.keys(examAnswers).length+" of "+examQuestions.length+" answered";
- renderNavigator();
+
+function goToQuestion(index){
+ currentIndex=index;
+ renderQuestion();
 }
-function chooseExamAnswer(i){examAnswers[examQuestions[examIndex].id]=i;renderExamQuestion()}
-function examPrevious(){if(examIndex>0){examIndex--;renderExamQuestion()}}
-function examNext(){if(examIndex<examQuestions.length-1){examIndex++;renderExamQuestion()}}
-function toggleFlag(){
- const id=examQuestions[examIndex].id;
- flags=flags.includes(id)?flags.filter(x=>x!==id):[...flags,id];
- renderExamQuestion();
-}
-function toggleNavigator(){$("examNavigator").classList.toggle("show")}
+
 function renderNavigator(){
- $("navigatorGrid").innerHTML=examQuestions.map((q,i)=>`
- <button class="${i===examIndex?"current ":""}${examAnswers[q.id]!==undefined?"answered ":""}${flags.includes(q.id)?"flagged":""}" onclick="goToExamQuestion(${i})">${i+1}</button>`).join("");
-}
-function goToExamQuestion(i){examIndex=i;renderExamQuestion();$("examNavigator").classList.remove("show")}
-function confirmSubmit(){
- const unanswered=examQuestions.filter(q=>examAnswers[q.id]===undefined).length;
- if(confirm(unanswered?`You have ${unanswered} unanswered question(s). Submit anyway?`:"Submit your test now?"))finishExam(false);
-}
-function finishExam(timeUp){
- clearInterval(timer);
- examQuestions.forEach(q=>{
-  if(examAnswers[q.id]!==undefined)answers[q.id]={choice:examAnswers[q.id],correct:examAnswers[q.id]===q.answer};
- });
- save();examRunning=false;
- const correct=examQuestions.filter(q=>examAnswers[q.id]===q.answer).length;
- const attempted=Object.keys(examAnswers).length;
- $("examWork").style.display="none";$("examFooter").style.display="none";$("examResults").style.display="block";
- $("examResults").innerHTML=`
- <div class="exam-setup exam-result">
-  <div class="eyebrow">${timeUp?"TIME IS UP":"TEST SUBMITTED"}</div>
-  <h1>Practice completed!</h1>
-  <div class="score">${correct}/${examQuestions.length}</div>
-  <p class="muted">${Math.round(correct/examQuestions.length*100)}% correct</p>
-  <div class="result-stats">
-   <div><b>${attempted}</b><span class="muted">Answered</span></div>
-   <div><b>${examQuestions.length-attempted}</b><span class="muted">Unanswered</span></div>
-   <div><b>${examQuestions.length-correct}</b><span class="muted">Incorrect</span></div>
-  </div>
-  <p class="muted">This is a Prepify sample-test result, not an official SAT score.</p>
-  <button class="primary" onclick="reviewExam()">Review answers</button>
-  <button class="secondary" onclick="closeExam()">Back to Prepify</button>
- </div>`;
- renderDashboard();
-}
-function reviewExam(){
- $("examResults").style.display="none";$("examWork").style.display="block";$("examFooter").style.display="flex";
- examIndex=0;renderReviewQuestion();
-}
-function renderReviewQuestion(){
- const q=examQuestions[examIndex];
- $("examQuestionNumber").textContent="REVIEW · QUESTION "+(examIndex+1)+" OF "+examQuestions.length;
- $("examProgressBar").style.width=(examIndex+1)/examQuestions.length*100+"%";
- $("examTopic").textContent=q.topic+" · "+(examAnswers[q.id]===q.answer?"Correct":"Incorrect / unanswered");
- $("examQuestionText").textContent=q.text;
- $("examChoices").innerHTML=q.options.map((o,i)=>`
- <div class="choice" style="${i===q.answer?"border-color:var(--green);background:#159b7215":examAnswers[q.id]===i?"border-color:var(--red);background:#df596815":""}">
- <span class="choice-letter">${"ABCD"[i]}</span><span>${o}</span></div>`).join("")+
- `<div class="card" style="margin-top:15px"><b>Explanation</b><p class="muted">${q.explanation}</p></div>`;
- $("flagBtn").style.display="none";
- $("answeredCounter").textContent="Correct answer: "+"ABCD"[q.answer];
- $("prevBtn").disabled=examIndex===0;
- $("nextBtn").style.display=examIndex===examQuestions.length-1?"none":"inline-block";
- $("submitBtn").style.display=examIndex===examQuestions.length-1?"inline-block":"none";
- $("submitBtn").textContent="Finish review";$("submitBtn").onclick=closeExam;
- $("prevBtn").onclick=()=>{examIndex--;renderReviewQuestion()};
- $("nextBtn").onclick=()=>{examIndex++;renderReviewQuestion()};
-}
-function leaveExam(){
- if(examRunning&&!confirm("Leave this exam? Your current attempt will not be submitted."))return;
- closeExam();
-}
-function closeExam(){
- clearInterval(timer);examRunning=false;$("exam").classList.remove("active");
- $("flagBtn").style.display="inline-block";
- $("submitBtn").textContent="Submit Test";$("submitBtn").onclick=confirmSubmit;
- $("prevBtn").onclick=examPrevious;$("nextBtn").onclick=examNext;
- if(document.fullscreenElement)document.exitFullscreen?.();
-}
-function toggleFullscreen(){
- if(!document.fullscreenElement)document.documentElement.requestFullscreen?.().catch(()=>{});
- else document.exitFullscreen?.();
-}
-function renderMistakes(){
- const wrong=questions.filter(q=>answers[q.id]&&!answers[q.id].correct);
- $("mistakesList").innerHTML=wrong.length?wrong.map(q=>`
- <div class="list-item"><div><b>${q.topic}</b><p class="muted">${q.text.slice(0,90)}...</p></div>
- <button class="secondary" onclick="launchExam('${q.topic}')">Review</button></div>`).join(""):'<div class="empty">No mistakes to review yet.</div>';
-}
-function renderData(){
- const s=stats();
- $("dataAnswered").textContent=s.total;$("dataCorrect").textContent=s.correct;
- $("dataWrong").textContent=s.wrong;$("dataAccuracy").textContent=s.total?s.accuracy+"%":"—";
- $("topicStats").innerHTML=topics.map(t=>{
-  const qs=questions.filter(q=>q.topic===t),done=qs.filter(q=>answers[q.id]),correct=done.filter(q=>answers[q.id].correct).length;
-  return `<div style="margin:20px 0"><b>${t}</b><span class="muted" style="float:right">${done.length}/${qs.length} answered</span><div class="progress"><span style="width:${done.length?correct/done.length*100:0}%"></span></div></div>`;
+ $("questionNavigator").innerHTML=currentQuestions.map((q,i)=>{
+  const a=userAnswers[answerKey(q)];
+  return `
+   <button
+    class="${i===currentIndex?"current ":""}${a?"done":""}"
+    onclick="goToQuestion(${i})">${i+1}</button>
+  `;
  }).join("");
 }
-init();
+
+function renderProgress(){
+ const answered=currentQuestions.filter(q=>userAnswers[answerKey(q)]).length;
+ const total=currentQuestions.length;
+ $("progressNumber").textContent=answered+"/"+total;
+ $("progressFill").style.width=(answered/total*100)+"%";
+ $("progressCaption").textContent="Questions you have answered.";
+}
+
+/* Save questions */
+function toggleSave(key){
+ if(savedQuestions.includes(key)){
+  savedQuestions=savedQuestions.filter(x=>x!==key);
+ }else{
+  savedQuestions.push(key);
+ }
+ saveData();
+ $("saveQuestionBtn").textContent=
+  savedQuestions.includes(key)?"★ Saved":"☆ Save";
+ renderDashboard();
+}
+
+/* Mistakes */
+function renderMistakes(){
+ const wrong=allQuestions().flatMap(q=>
+  ["Medium","Hard"].map(level=>({...q,level}))
+ ).filter(q=>{
+  const a=userAnswers[q.id+"_"+q.level];
+  return a&&!a.correct;
+ });
+
+ if(!wrong.length){
+  $("mistakesList").innerHTML='<div class="empty">No mistakes yet. Keep practicing!</div>';
+  return;
+ }
+
+ $("mistakesList").innerHTML=wrong.map(q=>`
+  <div class="topic-card" style="border-bottom:1px solid var(--border)">
+   <div class="topic-card-top"><b>${q.topic}</b><span class="tag">${q.level}</span></div>
+   <p>${q.text.slice(0,150)}${q.text.length>150?"...":""}</p>
+   <button class="btn" onclick="openTopic('${q.topic}');startTopic('${q.level}');goToQuestion(${currentQuestions.findIndex(x=>x.id===q.id)})">Review section →</button>
+  </div>
+ `).join("");
+}
+
+/* Saved questions */
+function renderSaved(){
+ const all=allQuestions();
+ const items=savedQuestions.map(key=>{
+  const parts=key.split("_");
+  const id=parts[0],level=parts[1];
+  const q=all.find(x=>x.id===id);
+  return q?{...q,level,key}:null;
+ }).filter(Boolean);
+
+ $("savedList").innerHTML=items.length?items.map(q=>`
+  <div class="topic-card" style="border-bottom:1px solid var(--border)">
+   <div class="topic-card-top"><b>${q.topic}</b><span class="tag">${q.level}</span></div>
+   <p>${q.text.slice(0,140)}${q.text.length>140?"...":""}</p>
+   <button class="btn" onclick="openTopic('${q.topic}');startTopic('${q.level}');">Open section →</button>
+   <button class="btn" onclick="toggleSave('${q.key}');renderSaved()">Remove saved</button>
+  </div>
+ `).join(""):'<div class="empty">You have not saved any questions yet.</div>';
+}
+
+/* Data */
+function renderData(){
+ const s=getStats();
+ $("dataAnswered").textContent=s.answered;
+ $("dataCorrect").textContent=s.correct;
+ $("dataWrong").textContent=s.wrong;
+ $("dataAccuracy").textContent=s.answered?s.accuracy+"%":"—";
+
+ $("dataTopics").innerHTML=topics.map(topic=>{
+  const qs=questionBank[topic];
+  let total=0,correct=0;
+  ["Medium","Hard"].forEach(level=>{
+   qs.forEach(q=>{
+    const a=userAnswers[q.id+"_"+level];
+    if(a){total++;if(a.correct)correct++}
+   });
+  });
+  return `
+   <div style="padding:17px 0;border-top:1px solid var(--border)">
+    <b>${topic}</b>
+    <span class="muted" style="float:right">${total} answered · ${correct} correct</span>
+   </div>
+  `;
+ }).join("");
+}
+
+function renderAll(){
+ renderDashboard();
+ renderTopicCards();
+}
+
+/* Start */
+initialize();
 </script>
 </body>
 </html>
